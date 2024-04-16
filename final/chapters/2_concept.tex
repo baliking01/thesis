@@ -1,0 +1,98 @@
+\Chapter{Core concepts and previous research}
+
+\Section{Fuzzy logic}
+In order to gain a sound understanding of the idea of \textit{fuzziness} we must first familiarize ourselves with the notion of fuzzy sets. The concept was first introduced and described by mathematician Lotfi A. Zadeh in 1965 as an extension to classical sets. The key difference between ordinary sets and fuzzy ones is simple: In the case of the former all elements are either a part of a set or not, where as in the world of fuzzy sets an element may belong to multiple sets. The measure of how much an element is part of a given set is referred to as its \textit{degree of membership} and is calculated with the aid of the \textit{membership function}.
+
+The formal definition of a fuzzy set is as follows:
+
+\begin{definition}
+Let $U$, referred to as the \textit{universe of discourse}, be a set containing all the elements we wish to describe and define $m:U \to [0, 1]$ as a membership function. The pair $(U, m) $ forms a fuzzy set $A$ in which $\forall x \in U$ the value given by $m(x)$ is called the degree of membership of $x$. The function $m(x)$ is equivalent to $\mu_{a}(x)$.
+\end{definition}
+
+Taking the example from Claudio Moraga's \textit{Introduction to fuzzy logic} (2005)[cite]: given the interval $[0, 10]$ of the real line as our universe of discourse and the statement ``x is between 3 and 5'', we may represent it with the function $\mu_{3-5}:[0, 10] \to [0,1]$. Where $\mu_{3-5}(x) = 1$ if $3 \leq x \geq 5$, and $\mu_{3-5}(x) = 0$ otherwise as seen on fig1.a. This function describes the classical set $[3, 5]$. Consider now the statement ``x is near 4''. The proximity, or nearness to the number $4$ can be represented as $4-\epsilon$, given the assumption that $\epsilon$ is a sufficiently small positive real number. Values obtained by the continued subtraction of $\epsilon$ will have a decreasing \textit{``degree of nearness''} to $4$ until the value, and subsequently those smaller then itself, is no longer considered to be ``near'' the number $4$. Repeating this experiment with $4+\epsilon$ and the continued addition of $\epsilon$ will yield symmetric results. If we take the function $\mu_{near 4} : [0, 10] \to [0, 1]$ to represent this statement just as previously, it becomes apparent that it cannot be of the same kind as $\mu_{3-5}$ (that lead to a classical set). If we assume that 3 and 5 are acceptable limit points for ``near 4”, then
+
+\[
+	\mu_{near 4}(x) =
+		\begin{cases}
+			0, &x < 3 \text{ or } x > 5\\
+			1, &x = 4\\
+			\text{frac}(x), &3 < x < 4\\
+			1 - \text{frac}(x), &4 < x < 5.\\
+		\end{cases}
+\]
+
+The function will be continuous and increasing for $3 < x < 4 and$ will be continuous and decreasing for$ 4 < x < 5$. Without further information, linear transitions will be chosen as shown in fig1.b. $\mu_{near 4} $ represents a \textbf{fuzzy set}.
+
+figures of the previous example
+\begin{figure}[!h]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\begin{tikzpicture}
+		\draw (-3, 0) -- (3, 0);
+		\draw (-3, 0) -- (-3, 3);
+		\draw (-3, 3) -- (3, 3);
+		\draw (3, 0) -- (3, 3);
+ 	\end{tikzpicture}
+  	\caption{Classical set}
+  	\label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+  	\begin{tikzpicture}
+		\draw (-3, 0) -- (3, 0);
+		\draw (-3, 0) -- (-3, 3);
+		\draw (-3, 3) -- (3, 3);
+		\draw (3, 0) -- (3, 3);
+	\end{tikzpicture}
+  	\caption{Fuzzy set}
+  	\label{fig:sub2}
+\end{subfigure}
+\caption{Difference in steepness during the transition from 0 to 1.}
+\label{fig:steepness}
+\end{figure}
+
+overlapping fuzzy sets
+There are some cases, where precise numerical measurements might not be required or even be detrimental, for example stating someone's age as being 17 years, 32 days, 8 hours old does not necessarily demand such accuracy. It is much more sensible to describe that person simply as young. This notion of exchanging the use of numerical values in our statements to words was introduced by Zadeh in 1975 and is called a \textbf{linguistic variable}. 
+
+The varying values taken by such a variable can be described
+
+For a simple example consider one's age as a variable and the two sets: young and old. A person who is 5 years of age is considered very young and not at all old, similarly someone in their twenties may be called young, but slightly old as well, however a middle aged individual of 43 years is neither very young nor very old, but rather an even mix of both.
+
+different membership functions (non-linear)
+
+\Section{Applications}
+\Section{Fuzzy rules}
+\Section{State machines and fuzzy behavior}
+\Section{Mathematical model}
+\Section{Fuzzy Behavior Description Language}
+
+\Section{A fejezet célja}
+
+Ez a fejezet még nem a saját eredményekkel foglalkozik, hanem bemutatja, mi a problémakör, milyen módszerekkel, milyeneredményeket sikerült elérni eddig másoknak.
+
+A hivatkozások jelentős része ehhez a fejezethez szokott kötődni.
+(Egy hivatkozás például így néz ki \cite{coombs1987markup}.)
+Itt lehet bemutatni a hasonló alkalmazásokat.
+
+\Section{Tartalom és felépítés}
+
+A fejezet tartalma témától függően változhat. Az alábbiakat attól függően különböző arányban tartalmazhatják.
+\begin{itemize}
+\item Irodalomkutatás. Amennyiben a dolgozat egy módszer kidolgozására, kifejlesztésére irányul, akkor itt lehet részletesen végignézni (módszertani vagy időrendi bontásban), hogy az eddigiekben milyen eredmények születtek a témakörben.
+\item Technológia. Mivel jellemzően kutatásról vagy szoftverfejlesztésről van szó, ezért annak a jellemző elemeit, technikai részleteit itt kell bemutatni.
+Ez tehát egy módszeres bevezetés ahhoz, hogy ha valaki nem jártas a témakörben, akkor tudja, hogy a dolgozat milyen aktuálisan elérhető eredményeket, eszközöket használt fel.
+\item Piackutatás. Bizonyos témáknál új termék vagy szolgáltatás kifejlesztése a cél.
+Ekkor érdemes annak alaposan utánanézni, hogy aktuálisan milyen eszközök érhetők el a piacon.
+Ez szoftverek esetében a hasonló alkalmazások bemutatását, táblázatos formában történő összehasonlítását jelentheti.
+Szerepelhetnek képek és észrevételek a viszonyításként bemutatott alkalmazásokhoz.
+\item Követelmény specifikáció. Külön szakaszban érdemes részletesen kitérni az elkészítendő alkalmazással kapcsolatos követelményekre.
+Ehhez tartozhatnak forgatókönyvek (\textit{scenario}-k).
+A szemléletesség kedvéért lehet hozzájuk képernyőkép vázlatokat is készíteni, vagy a használati eseteket más módon szemléltetni.
+\end{itemize}
+
+\Section{Amit csak említés szintjén érdemes szerepeltetni}
+
+Az olvasóról annyit feltételezhetünk, hogy programozásban valamilyen szinten járatos, és a matematikai alapfogalmakkal sem ebben a dolgozatban kell megismertetni.
+A speciális eszközök, programozási nyelvek, matematikai módszerekk és jelölések persze jó, hogy ha említésre kerülnek, de nem kell nagyon belemenni a közismertnek tekinthető dolgokba.
+

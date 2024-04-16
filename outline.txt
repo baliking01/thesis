@@ -1,0 +1,55 @@
+Thesis structure
+================
+
+Abstract
+--------
+	- Short description of the problems and solutions mentioned below
+
+Introduction
+------------
+	- The problem to be solved (behavior control) and language
+	  implementaion
+	- Fuzzy logic
+	- Previous works regarding fuzzy interpolation and behavioral models
+	- Outline of the main goal and aims for creating the interpreter
+
+Mathematical model
+------------------
+	- Fuzzy interpolation
+	- Fuzzy automaton/state machine
+	- The fuzzy behaviour description language, quick overview
+
+The interpreter (general architecture)
+--------------------------------------
+	- The requirements
+	- General workings of an interpreter
+	- Detailed overview of the FBDL along with its syntax and grammar
+
+I. Lexical analyzer (Tokenizer)
+-------------------------------
+	- Datastructures and functional dependency
+	- Valid token list, (keywords, strings, numbers, terminals?, etc.)
+	- Considerations, prepartion of text
+	- Method of lexing each token
+	- Unit test, corner cases
+	- Room for possible future extensions (string escape, termnials, dominates)
+
+II. Parser
+----------
+	- Specific implementation to parse the given grammar
+	- Overview of each grammar rule
+	- Building the syntax tree, datastructures used
+	- Semantical checks after parsing
+	- Unit testing, corner cases
+	- Room for possible future extensions (warnings, optional arguments, rule domination hierarchy, grammar extension?)
+
+III. Behaviour Engine
+---------------------
+	- Direct implementation of the mathematical model
+	- 
+
+Tests and examples
+------------------
+	 - From simple to complex
+	 - Visual presentation of surfaces
+	 - Performance, speed

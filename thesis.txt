@@ -1,0 +1,64 @@
+Goals: Describe the main problem the thesis deals with along with the neccessary prerequisites needed to fully comprehend it.
+This should be achieved in the following manner:
+
+Introduction
+	- A short introduction of the main topics that will be described, a general thesis outline of sort (A longer abstract)
+	- Provide general information about the theoretical parts (fuzzy logic and related concepts) of the work along with their technical applications
+
+
+Concept
+	Fuzzy logic
+		- A very brief history and explanation of fuzzy logic with simple examples
+
+	Previous works on fuzzy logic and its applications
+		- Real life examples of fuzzy logic and fuzzy systems
+		- Fuzzy rules and their interpolation: explanation, techniques and resultant surfaces
+		- Process of transforming a binary system into a fuzzy one [input vars -> fuzzyfication -> rule interpolation -> defuzzyfication]
+		- Fuzzy behavior and concepts related to automatons/state machines and their connections
+
+	Fuzzy behavior description language
+		- Motivation behind the fuzzy behavior description language (FBDL)
+		- Language specifications and requirements: mathematical model(fuzzy automaton), syntax, grammar
+		- Javascript library for FBDL (piller)
+
+
+Design
+	Interpreter for the language
+		- The need for an interpreter within MATLAB/Octave, not yet a standalone program, more like a library/package
+		- General overview and operation of an interpreter
+
+	Parts
+		- Lexical analyzer (tokenizer)
+			- Data structures and functional dependency
+			- Valid token list, (keywords, strings, numbers, terminals?, etc.)
+			- Considerations, preparation of text
+			- Method of lexing each token
+			- Room for possible future extensions (string escape, terminals, dominates)
+		- Parser
+			- Specific implementation to parse the given grammar
+			- Overview of each grammar rule
+			- Building the syntax tree, datastructures used
+			- Semantical checks after parsing
+			- Room for possible future extensions (warnings, optional arguments, rule domination hierarchy, grammar extension?)
+		- Engine
+			TODO: state machine, calculations, behavior control
+
+
+Implementation
+	- Implementation and inner workings of the interpreter
+	- Technical and language related decisions (splitting of functions, minimal use of language specific features, data structure, program
+		hierarchy)
+
+
+Testing
+	- Unit tests for all modules of the interpreter
+	- Technical difficulties of testing and the many corner cases at play
+
+
+Conclusion
+	- Results and examples demonstrating the surfaces acquired from the output of the interpreter
+	- Conclusion, closing thoughts and future works on both the language and the interpreter itself
+
+
+
+[1] Moraga, C. (2005). Introduction to fuzzy logic. Facta Universitatis. Series Electronics and Energetics/Facta Universitatis. Series: Electronics and Energetics, 18(2), 319–328. (https://www.researchgate.net/publication/228388967_Introduction_to_Fuzzy_Logic)

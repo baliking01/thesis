@@ -3,27 +3,28 @@
 \Section{Fuzzy logic}
 In order to gain a sound understanding of the idea of \textit{fuzziness} we must first familiarize ourselves with the notion of fuzzy sets. The concept was first introduced and described by mathematician Lotfi A. Zadeh in 1965 as an extension to classical sets. The key difference between ordinary sets and fuzzy ones is simple: In the case of the former all elements are either a part of a set or not, where as in the world of fuzzy sets an element may belong to multiple sets. The measure of how much an element is part of a given set is referred to as its \textit{degree of membership} and is calculated with the aid of the \textit{membership function}.
 
+\SubSection{Fuzzy set}
 The formal definition of a fuzzy set is as follows:
 
 \begin{definition}
 Let $U$, referred to as the \textit{universe of discourse}, be a set containing all the elements we wish to describe and define $m:U \to [0, 1]$ as a membership function. The pair $(U, m) $ forms a fuzzy set $A$ in which $\forall x \in U$ the value given by $m(x)$ is called the degree of membership of $x$. The function $m(x)$ is equivalent to $\mu_{a}(x)$.
 \end{definition}
 
-Taking the example from Claudio Moraga's \textit{Introduction to fuzzy logic} (2005)[cite]: given the interval $[0, 10]$ of the real line as our universe of discourse and the statement ``x is between 3 and 5'', we may represent it with the function $\mu_{3-5}:[0, 10] \to [0,1]$. Where $\mu_{3-5}(x) = 1$ if $3 \leq x \geq 5$, and $\mu_{3-5}(x) = 0$ otherwise as seen on fig1.a. This function describes the classical set $[3, 5]$. Consider now the statement ``x is near 4''. The proximity, or nearness to the number $4$ can be represented as $4-\epsilon$, given the assumption that $\epsilon$ is a sufficiently small positive real number. Values obtained by the continued subtraction of $\epsilon$ will have a decreasing \textit{``degree of nearness''} to $4$ until the value, and subsequently those smaller then itself, is no longer considered to be ``near'' the number $4$. Repeating this experiment with $4+\epsilon$ and the continued addition of $\epsilon$ will yield symmetric results. If we take the function $\mu_{near 4} : [0, 10] \to [0, 1]$ to represent this statement just as previously, it becomes apparent that it cannot be of the same kind as $\mu_{3-5}$ (that lead to a classical set). If we assume that 3 and 5 are acceptable limit points for ``near 4”, then
+Taking the example from Claudio Moraga's \textit{Introduction to fuzzy logic} (2005)[cite]: given the interval $[0, 10]$ of the real line as our universe of discourse and the statement ``x is between 3 and 5'', we may represent it with the function $\mu_{3-5}:[0, 10] \to [0,1]$. Where $\mu_{3-5}(x) = 1$ if $3 \leq x \geq 5$, and $\mu_{3-5}(x) = 0$ otherwise as seen on fig1.a. This function describes the classical set $[3, 5]$. Consider now the statement ``x is near 4''. The proximity, or nearness to the number $4$ can be represented as $4-\epsilon$, given the assumption that $\epsilon$ is a sufficiently small positive real number. Values obtained by the continued subtraction of $\epsilon$ will have a decreasing \textit{``degree of nearness''} to $4$ until the value, and subsequently those smaller then itself, is no longer considered to be ``near'' the number $4$. Repeating this experiment with $4+\epsilon$ and the continued addition of $\epsilon$ will yield symmetric results. If we take the function $\mu_{near 4} : [0, 10] \to [0, 1]$ to represent this statement just as previously, it becomes apparent that it cannot be of the same kind as $\mu_{3-5}$ (that lead to a classical set). If we assume that 3 and 5 are acceptable limit points for ``near 4” and marking these as , $\alpha_{min} = 3, \alpha_{max} = 5, $beta = 4$, then
 
 \[
 	\mu_{near 4}(x) =
 		\begin{cases}
-			0, &x < 3 \text{ or } x > 5\\
-			1, &x = 4\\
-			\text{frac}(x), &3 < x < 4\\
-			1 - \text{frac}(x), &4 < x < 5.\\
+			0, &x \leq \alpha_{min} \text{ or } x \geq \alpha_{max}\\
+			1, &x = \beta\\
+			\frac{x - \alpha_{min}}{\beta - \alpha_{min}}, &\alpha_{min} < x < \beta\\
+			\frac{\alpha_{max} - x}{\alpha_{max} - \beta}, &\beta < x < \alpha_{max}.\\
 		\end{cases}
 \]
 
 The function will be continuous and increasing for $3 < x < 4 and$ will be continuous and decreasing for$ 4 < x < 5$. Without further information, linear transitions will be chosen as shown in fig1.b. $\mu_{near 4} $ represents a \textbf{fuzzy set}.
 
-figures of the previous example
+[figures of the previous example]
 \begin{figure}[!h]
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -52,47 +53,135 @@ figures of the previous example
 \label{fig:steepness}
 \end{figure}
 
-overlapping fuzzy sets
-There are some cases, where precise numerical measurements might not be required or even be detrimental, for example stating someone's age as being 17 years, 32 days, 8 hours old does not necessarily demand such accuracy. It is much more sensible to describe that person simply as young. This notion of exchanging the use of numerical values in our statements to words was introduced by Zadeh in 1975 and is called a \textbf{linguistic variable}. 
+Other than assigning values linearly to elements not fully contained inside a fuzzy set any kind of membership function can be utilized, but by far the most common is the previously mentioned linear way, which produces a trapeziod shape during visualization (Triangles arise, when the upper side of the trapezoid is a point). In terms of terminology the following expressions are defined regarding any given fuzzy set:
 
-The varying values taken by such a variable can be described
+\textit{Core:} Elements where the membership function is 1:
+\[
+	\text{core}(A) = \{x \in U \vert \mu_{\alpha}(x) \geq \alpha\}
+\]
 
-For a simple example consider one's age as a variable and the two sets: young and old. A person who is 5 years of age is considered very young and not at all old, similarly someone in their twenties may be called young, but slightly old as well, however a middle aged individual of 43 years is neither very young nor very old, but rather an even mix of both.
+\textit{Support:} Elements where the membership function is greater than 0:
+\[
+	\text{support}(A) = \{x \in U \vert \mu_{\alpha}(x) > 0\}
+\]
 
-different membership functions (non-linear)
+\textit{Boundary:} Elements where the membership function is between 0 and 1:
+\[
+	\text{boundary}(A) = \{x \in U \vert 0 < \mu_{\alpha}(x) < 1}
+\]
 
-\Section{Applications}
+\textit{Height:} The height of the fuzzy set $A$ is the maximum value taken on by the membership function:
+\[
+	\text{height}(A) = \{x \in U \vert \max(\mu_{\alpha}(x))}
+\]
+
+\SubSection{Various membership functions}
+An example of the different shapes that a membeship function may take include the following cases and their respective definitions:
+\textbf{Triangular} (Same as in the above example, a special case of the trapezoid):
+\[
+	\mu_{A}(x) =
+		\begin{cases}
+			0, &x \leq \alpha_{min} \text{ or } x \geq \alpha_{max}\\
+			1, &x = \beta\\
+			\frac{x - \alpha_{min}}{\beta - \alpha_{min}}, &\alpha_{min} < x < \beta\\
+			\frac{\alpha_{max} - x}{\alpha_{max} - \beta}, &\beta < x < \alpha_{max}.\\
+		\end{cases}
+\]
+
+\textbf{Trapezoidal} (With the upper side (core) taking values from [$\beta_1$, $\beta_2$]):
+\[
+	\mu_{A}(x) =
+		\begin{cases}
+			0, &x \leq \alpha_{min} \text{ or } x \geq \alpha_{max}\\
+			\frac{x - \alpha_{min}}{\beta_1 - \alpha_{min}}, &\alpha_{min} < x < \beta_1\\
+			\frac{\alpha_{max} - x}{\alpha_{max} - \beta_2}, &\beta_2 < x < \alpha_{max}.\\
+		\end{cases}
+\]
+
+\textbf{$\Gamma$-membership} function:
+\[
+	\mu_{A}(x) =
+		\begin{cases}
+			0, &x < \alpha\\
+			1-e^{\gamma(x-a)^2}, &\alpha_{min} < x < \beta_1\\
+		\end{cases}
+\]
+
+\textbf{S-membership} function:
+\[
+	\mu_{A}(x) =
+		\begin{cases}
+			0, &x \leq \alpha_{min} \text{ or } x \geq \alpha_{max}\\
+			2\left \frac{x - \alpha_{min}}{\alpha_{max} - \alpha_{min}} \right^2, &\alpha_{min} < x < \beta\\
+			1 - 2\left \frac{x - \alpha_{min}}{\alpha_{max} - \alpha_{min}} \right^2, &\beta < x < \alpha_{max}.\\
+		\end{cases}
+\]
+
+\textbf{Logistic} function:
+\[
+	\mu_{A}(x) = \frac{1}{1 + e^{-\gamma x}}
+\]
+
+\textbf{Exponential-like} function:
+\[
+	\mu_{A}(x) = \frac{1}{1 + \gamma(x - \beta)^2}
+\]
+where \gamma > 1.
+
+\textbf{Gaussion} function:
+\[
+	\mu_{A}(x) = e^{-\alpha (x - \beta)^2}
+\]
+
+Besides these any function that fits the intended purpose of characterizing a certain fuzzy set is acceptable and it is left up to the discretion of experts in the given field to decide which one is most appropriate.
+
+[figures some previous functions]
+
+\SubSection{Dealing with multiple fuzzy sets}
+There are some cases, where precise numerical measurements might not be required or even be detrimental, for example stating someone's age as being 17 years 32 days and 8 hours old, does not necessarily demand such accuracy. It is much more sensible to describe that person simply as young. This notion of the use of words in our statements instead of numerical values was introduced by Zadeh in 1975 and is called a \textbf{linguistic variable}. The varying values taken by such a variable can be described by \textbf{linguistic terms}, such as \textit{low, middle, high, very small, average, large}, meaning we are able to take advantage of natural language, thus making it easier to work with.
+
+For a simple example consider one's age as a variable and the two sets: young and old. A person who is 5 years of age is considered very young and not at all old, similarly someone in their twenties may be called young, but slightly old as well, however a middle aged individual of 43 years is neither very young nor very old, but rather an even mix of both. Representing the two fuzzy sets, young and old, on fig3 we can see they overlap. Any value at this given interval of overlay is a linear combination of, in this particular case, both of these fuzzy sets. The number of sets can, of course, be extended and then the values at these intersection would be a linear combination of all the defined sets, given that they overlap. From giving proper definitions of how to operate on these linguistic variables arises the notion of \textbf{fuzzy logic} and subsequently it serves as the basis for many advanced concepts such as: inference, fuzzy decision making and fuzzy control.
+
+[Overlapping fuzzy sets with point x demonstrating linear combination of values]
+\begin{figure}[!h]
+\centering
+	\begin{tikzpicture}
+		\draw (-3, 0) -- (3, 0);
+		\draw (-3, 0) -- (-3, 3);
+		\draw (-3, 3) -- (3, 3);
+		\draw (3, 0) -- (3, 3);
+ 	\end{tikzpicture}
+\end{figure}
+
+\Section{Applications of fuzzy logic}
+Many fields make use of fuzzy logic and all the differing unique characteristics from ordinary sets that it has to offer. Fuzzy logic is best suited for problems that may be hard to define or model precisely with Boolean-logic. A collection of some notable examples of already tried and implemented solutions explored by [cite Makkar] are discussed in this section.
+
+\SubSection{Healthcare}
+Due to the intrinsic non-linearity of biomedical systems it is difficult to accurately model various processes. Regulation of blood pressure in the case of medical patients has been tested with the help of a real time drug delivery system that used an integrated fuzzy controller. Separately, it has also been shown that test reports yield estimates of likelihood rather than confirmation of presence or absence of a disease, hence these empirical estimates can be treated as the output of a membership function and used as such in fuzzy inference modelling.
+
+\SubSection{Chemical Science}
+A fuzzy control system was used to both apply current to a series of anodes protecting an underground pipeline and to minimize the system's power consumption. For comparison the system used 126 \textit{fuzzy rules} (further discussed in the following chapter) and an empirically adjusted membership function to optimize the model. Another study conducted in relation to pH measurement in waste water adopted fuzzy logic to calculate errors and acceptable levels of pH in the data. 
+
+\SubSection{Optimization problems (Operations Research)}
+Pappis and Mamdani (1977) applied fuzzy logic to control an intersection of two one-way streets and minimize traffic obstruction. Teodorovic and Kalie (1996) experimented with fuzzy logic based decisions for choosing the mode of transportation in order to minimize both the cost of travelling and the travel time. .Jarkko and Esko (2003) had applied fuzzy logic to minimize the waiting time and risk of collisions during the operation of traffic signals .
+
 \Section{Fuzzy rules}
+The behavior of a system can be represented by a simple model if we consider only its relevant aspects. Such a construct makes use of a set of rules in the ``if - then" form. Fuzzy rules are categorized by two major types, Mamdani fuzzy rules and Takagi-Sueno fuzzy rules [cite]. In the general form of a fuzzy rule a list of antecednets is followed by a number of consquents such that:
+
+\[
+	if  \text{<antecedent_1>} and \ldots and \text{<antecedent_n>} then \text{<consequent_1>} and \ldots and \text{<consequent_n>}
+\]
+
+where the \textit{antecedent} is of the form $v_1 is S_1$ and the consequent $z_1 is W_1$ respectively. $v_i$ is an input variable belonging to the input fuzzy set $S_i$ and $z_j$ is an output variable of the output fuzzy set $W_j$.
+In the case of Takagi-Sueno fuzzy rules the consequents are replaced with functions of the input variables so that $z_j = f_p(v_1, \ldots, v_i)$, where $f_p$ is any real function.
+
+\SubSection{Fuzzy inference}
+Fuzzy logic controller
+Fuzzification
+Inference
+Defuzzification
+
 \Section{State machines and fuzzy behavior}
 \Section{Mathematical model}
 \Section{Fuzzy Behavior Description Language}
-
-\Section{A fejezet célja}
-
-Ez a fejezet még nem a saját eredményekkel foglalkozik, hanem bemutatja, mi a problémakör, milyen módszerekkel, milyeneredményeket sikerült elérni eddig másoknak.
-
-A hivatkozások jelentős része ehhez a fejezethez szokott kötődni.
-(Egy hivatkozás például így néz ki \cite{coombs1987markup}.)
-Itt lehet bemutatni a hasonló alkalmazásokat.
-
-\Section{Tartalom és felépítés}
-
-A fejezet tartalma témától függően változhat. Az alábbiakat attól függően különböző arányban tartalmazhatják.
-\begin{itemize}
-\item Irodalomkutatás. Amennyiben a dolgozat egy módszer kidolgozására, kifejlesztésére irányul, akkor itt lehet részletesen végignézni (módszertani vagy időrendi bontásban), hogy az eddigiekben milyen eredmények születtek a témakörben.
-\item Technológia. Mivel jellemzően kutatásról vagy szoftverfejlesztésről van szó, ezért annak a jellemző elemeit, technikai részleteit itt kell bemutatni.
-Ez tehát egy módszeres bevezetés ahhoz, hogy ha valaki nem jártas a témakörben, akkor tudja, hogy a dolgozat milyen aktuálisan elérhető eredményeket, eszközöket használt fel.
-\item Piackutatás. Bizonyos témáknál új termék vagy szolgáltatás kifejlesztése a cél.
-Ekkor érdemes annak alaposan utánanézni, hogy aktuálisan milyen eszközök érhetők el a piacon.
-Ez szoftverek esetében a hasonló alkalmazások bemutatását, táblázatos formában történő összehasonlítását jelentheti.
-Szerepelhetnek képek és észrevételek a viszonyításként bemutatott alkalmazásokhoz.
-\item Követelmény specifikáció. Külön szakaszban érdemes részletesen kitérni az elkészítendő alkalmazással kapcsolatos követelményekre.
-Ehhez tartozhatnak forgatókönyvek (\textit{scenario}-k).
-A szemléletesség kedvéért lehet hozzájuk képernyőkép vázlatokat is készíteni, vagy a használati eseteket más módon szemléltetni.
-\end{itemize}
-
-\Section{Amit csak említés szintjén érdemes szerepeltetni}
-
-Az olvasóról annyit feltételezhetünk, hogy programozásban valamilyen szinten járatos, és a matematikai alapfogalmakkal sem ebben a dolgozatban kell megismertetni.
-A speciális eszközök, programozási nyelvek, matematikai módszerekk és jelölések persze jó, hogy ha említésre kerülnek, de nem kell nagyon belemenni a közismertnek tekinthető dolgokba.
 

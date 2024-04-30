@@ -60,9 +60,15 @@ Conclusion
 	- Conclusion, closing thoughts and future works on both the language and the interpreter itself
 
 
+Helpful links:
+https://www.mathworks.com/help/fuzzy/fuzzy-inference-process.html
+
+References:
 
 [1] Moraga, C. (2005). Introduction to fuzzy logic. Facta Universitatis. Series Electronics and Energetics/Facta Universitatis. Series: Electronics and Energetics, 18(2), 319–328. (https://www.researchgate.net/publication/228388967_Introduction_to_Fuzzy_Logic)
 
 [2] Sabri, N., Aljunid, S. A., et al. (2013). Fuzzy Inference System: Short Review and design. International Review of Automatic Control, 6(4), 441–449. (https://www.researchgate.net/profile/Naseer-Sabri/publication/280739444_Fuzzy_inference_system_Short_review_and_design/links/5900293daca2725bd71e8630/Fuzzy-inference-system-Short-review-and-design.pdf)
 
 [3] Makkar, R. (2018). Application of fuzzy logic: A literature review. International Journal of Statistics and Applied Mathematics, 3(1), 357–359. (https://www.mathsjournal.com/pdf/2018/vol3issue1/PartE/3-1-73-380.pdf)
+
+[4] Alzubi, M., Johanyák, Z. C., & Kovács, S. (2019). Fuzzy Rule Interpolation Methods and Fri Toolbox. (https://arxiv.org/pdf/1904.12178)

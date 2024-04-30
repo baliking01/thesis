@@ -1,0 +1,26 @@
+\select@language {english} \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\select@language {english} \contentsline {chapter}{\numberline {2}Core concepts and previous research}{3}{chapter.2}%
+\select@language {english} \contentsline {section}{\numberline {2.1}Fuzzy logic}{3}{section.2.1}%
+\select@language {english} \contentsline {subsection}{\numberline {2.1.1}Fuzzy set}{3}{subsection.2.1.1}%
+\select@language {english} \contentsline {subsection}{\numberline {2.1.2}Various membership functions}{4}{subsection.2.1.2}%
+\select@language {english} \contentsline {subsection}{\numberline {2.1.3}Dealing with multiple fuzzy sets}{5}{subsection.2.1.3}%
+\select@language {english} \contentsline {section}{\numberline {2.2}Applications of fuzzy logic}{6}{section.2.2}%
+\select@language {english} \contentsline {subsection}{\numberline {2.2.1}Healthcare}{6}{subsection.2.2.1}%
+\select@language {english} \contentsline {subsection}{\numberline {2.2.2}Chemical Science}{6}{subsection.2.2.2}%
+\select@language {english} \contentsline {subsection}{\numberline {2.2.3}Optimization problems (Operations Research)}{6}{subsection.2.2.3}%
+\select@language {english} \contentsline {section}{\numberline {2.3}Fuzzy rules}{7}{section.2.3}%
+\select@language {english} \contentsline {subsection}{\numberline {2.3.1}Fuzzy inference}{7}{subsection.2.3.1}%
+\select@language {english} \contentsline {section}{\numberline {2.4}State machines and fuzzy behavior}{8}{section.2.4}%
+\select@language {english} \contentsline {section}{\numberline {2.5}Mathematical model}{8}{section.2.5}%
+\select@language {english} \contentsline {section}{\numberline {2.6}Fuzzy Behavior Description Language}{8}{section.2.6}%
+\select@language {english} \contentsline {chapter}{\numberline {3}Design}{9}{chapter.3}%
+\select@language {english} \contentsline {section}{\numberline {3.1}Interpreters and their operation}{9}{section.3.1}%
+\select@language {english} \contentsline {section}{\numberline {3.2}Implementation requirements}{9}{section.3.2}%
+\select@language {english} \contentsline {section}{\numberline {3.3}Lexical Analyzer}{9}{section.3.3}%
+\select@language {english} \contentsline {section}{\numberline {3.4}Parser}{9}{section.3.4}%
+\select@language {english} \contentsline {section}{\numberline {3.5}Engine}{9}{section.3.5}%
+\select@language {english} \contentsline {section}{\numberline {3.6}Error handling}{10}{section.3.6}%
+\select@language {english} \contentsline {chapter}{\numberline {4}Megvalósítás}{11}{chapter.4}%
+\select@language {english} \contentsline {chapter}{\numberline {5}Tesztelés}{12}{chapter.5}%
+\select@language {english} \contentsline {chapter}{\numberline {6}Összefoglalás}{13}{chapter.6}%
+\select@language {english} \contentsline {chapter}{Irodalomjegyzék}{14}{chapter.6}%

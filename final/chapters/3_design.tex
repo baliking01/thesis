@@ -1,28 +1,36 @@
-\Chapter{Design}
+\Chapter{Design and Implementation}
+
+
 
 \Section{Interpreters and their operation}
 [General overview of interpreters and basic principles]
 [Short description of parts and pros against compilers]
 
-\Section{Implementation requirements}
+\Section{Requirements and technical considerations}
 [Due to past research the need arose for such an interpreter in MATLAB/Octave]
+[Minimal use of language specific features]
+[Treating functions as separate files, hierarchy of the program]
+[Data structures used in the program, (eg.: lexer, parsed data stored as struct/cell array)]
 
-\Section{Lexical Analyzer}
+
+\Section{Structure of the interpreter}
+
+\SubSection{Lexical Analyzer}
 [Data structures and functional dependency between modules of the tokenizer]
 [Valid token list, (keywords, strings, numbers, terminals?, etc.)]
 [Considerations, preparation of text]
 [Method of analyzing and correctly checking each token]
 [Room for possible future extensions (string escapes, terminals and special symbols, dominates and other keywords)]
 
-\Section{Parser}
+\SubSection{Parser}
 [Overview of each grammar rule]
 [Specific implementation to parse the given grammar with recursive descent parsing technique]
 [Building the syntax tree and considerations for the data structures being used]
 [Additional semantical checks after parsing]
-[Room for possible future extensions: warnings for missing elements, parsing optional arguments, rule domination hierarchy, extension of the existing grammar?, parsing techniques required in case of certain grammar modification, eg.: precedence climbing for evaluation of mathematical expressions instead of  using constants]
+[Room for possible future extensions: warnings for missing elements, parsing optional arguments, rule domination hierarchy, extension of the existing grammar?, other parsing techniques required in case of certain grammar modification, eg.: precedence climbing for evaluation of mathematical expressions instead of using constants]
 
-\Section{Engine}
-[Calculation of fuzzy rule interpolation and inference of resultant values]
+\SubSection{Engine}
+[Calculation of fuzzy rule interpolation and inference for resultant values]
 [Operations based on the mathematical fuzzy automaton]
 [Behavior control and further reusing output values]
 
@@ -30,3 +38,6 @@
 [Built in Octave error handling, but a generic one should be used]
 [To avoid code entanglement and logically difficult to understand fault checking]
 [Reporting and error messages for helping find the apparent problem within the input code]
+
+\Section{Future extensions}
+With time programming languages usually evolve, and the FBDL is no exception, therefore it is quite sensible to employ an architecture that is capable of adaptation to changes in code and also leaves room for extensions. Various elements in the language such as strings, numbers, terminals and keywords are susceptible to change. Regarding the first in the list, strings might contain escape characters and as such the program must strore a list of characters that are accepted as valid escape sequences. 

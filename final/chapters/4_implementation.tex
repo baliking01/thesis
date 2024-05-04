@@ -1,47 +1,83 @@
 \Chapter{Implementation}
 
+\Section{Lexical Analyzer}
+The first stage in the program is lexical analysis, also called tokenization, a process which dissects and ``categorizes'' the input based on some predefined rule and extracts a stream of tokens, or in this case the \textit{getNextToken} function returns them one by one at each call. Everything else that is not needed or does not carry meaningful information is discarded such as white spaces, tabs, newline character, or any type of control character and only the allowed tokens are processed.
+
+Upon receiving a call the function must first \textit{trim} the input, simply skip the characters which are of no use to us such as all the control characters and those outside the alphanumeric range. Note that whenever we iterate over the input extensive checks are necessary in order to mitigate any indexing related issues.
+
+\begin{octave}
+function lexer = trim (lexer)
+  while lexer.cursor <= lexer.content_len &&
+  		((lexer.content(lexer.cursor) < 33) ||
+  		(lexer.content(lexer.cursor) == 127))
+        if lexer.content(lexer.cursor) == "\n"
+        lexer.line++;
+        lexer.beginning_of_line = lexer.cursor;
+      end
+      lexer.cursor++;
+   end
+end
+\end{octave}
+
+Then we must determine if we have run into a comment line, marked by a \textit{\# (hashtag)} symbol or reached the end of the file. In the case of the former we treat it in a similar manner to trimming, but only going until a \textit{\\n (newline} character is reached, whilst regarding the latter, a token is emitted with type \textit{EOF} and no value .
+
+Now we can finally start examining whether the stream of characters read from the input are part of an accepted token. Since we read individual characters from the input it is not possible to tell if it is going to be a valid token until we have read the whole word, however just from the first character we can categorize it as a possible token and then hand the procedure for checking to the appropriate function. In a case where an invalid character sequence is encountered the program raises a syntax error with the appropriate message and also displays the line and column numbers where the fault occurred, then exits.
+
+\SubSection{Identifier}
+\textbf{RESERVED}: An identifier may start with an underscore or any letter from the English alphabet found in the ASCII character set; case sensitivity is not considered. Characters apart from the first one can include numbers as well. Since no functionality for handling identifiers are currently implemented in the current version of the interpreter, and neither in the grammar of the FBDL, only keywords are permitted in the supplied FBDL source code. However given the similarity of lexical analysis in both cases some room has been left for possible accommodation of this feature at a later time.
+
+After a token is read as an identifier its value is compared against the list of available keywords, if a match is found the token type is changed to keyword and returned.
+
+\begin{octave}
+...
+while lexer.cursor <= lexer.content_len &&
+		isIdent(lexer.content(lexer.cursor))
+  lexer.cursor++;
+end
+token.value = substr(lexer.content, lexer.token_begins,
+		lexer.cursor - lexer.token_begins);
+if any(strcmp(lexer.keywords, token.value))
+  token.type = "keyword";
+end
+...
+\end{octave}
+
+The list of keywords may be extended or have entries removed, granted the modification is permitted by the grammar of the language. This is the case with the \textit{dominates} keyword as hierarchical rule dominance is not implemented in the program, but is found in the grammar as an optional language element.
+
+\SubSection{Terminal}
+\textbf{RESERVED}: Similarly to identifiers it is not yet available in the FBDL grammar, but some consideration has been taken to allow for future extensions that include these elements.
+
+\SubSection{String}
+Encountering a '' (double quote) symbol implies that a string will follow and accordingly every character is skipped until the closing pair is not reached. The lexer holds every token's starting position, in this particular case that happens to coincide with the position of the double quote at the beginning, which will later be used as an index to copy the contents of the string and store it in a token. This procedure is used in case of every token that has a value.
+
+The length of a given string is unknown when iterating over it, the only way to see if it is invalid, or in other words the closing double quotes are missing, is to see if we have reached the end-of-file beyond which there cannot be any more characters. Empty strings are permitted and no value copying happens in such a case.
+
+Escape characters are not yet allowed in strings and there are no implementations to process them, they are simple copied as literal characters just as the rest of the string.
+
+\SubSection{Number}
+The first thing to consider when checking for numerical constants is the presence of the optional negative sign, since it is not itself a numerical value, most often being denoted with a \textit{- (dash)}. Then a series of numbers, digits, must follow until the end of the token; the very first digit cannot be zero. Every number may contain a single negative sign before the first digit and a single decimal point between two adjacent digits marked by a \textit{. (dot)} character. Failing to meet any of these conditions will result in a syntactical error being raised and the program exiting.
+
+After passing these checks the series of digits is copied from the input text and is converted to a double precision floating point type, which is then returned in the token. This step allows direct referencing of the token's value during calculations in the engine without needing to do the conversion there.
 
 
-Ez a fejezet mutatja be a megvalósítás lépéseit.
-Itt lehet az esetlegesen előforduló technikai nehézségeket említeni.
-Be lehet már mutatni a program elkészült részeit.
 
-Meg lehet mutatni az elkészített programkód érdekesebb részeit.
-(Az érdekesebb részek bemutatására kellene szorítkozni.
-Többségében a szöveges leírásnak kellene benne lennie.
-Abból lehet kiindulni, hogy a forráskód a dolgozathoz elérhető, azt nem kell magába a dolgozatba bemásolni, elegendő csak behivatkozni.)
+\Section{Parser}
+Every language conforms to some form of grammatical rule base from which it cannot deviate, otherwise it would not be valid.
+[Overview of each grammar rule]
+[Specific implementation to parse the given grammar with recursive descent parsing technique]
+[Building the syntax tree and considerations for the data structures being used]
+[Additional semantical checks after parsing]
+[Room for possible future extensions: warnings for missing elements, parsing optional arguments, rule domination hierarchy, extension of the existing grammar?, other parsing techniques required in case of certain grammar modification, eg.: precedence climbing for evaluation of mathematical expressions instead of using constants]
 
-A dolgozatban szereplő forráskódrészletekhez külön vannak programnyelvenként stílusok.
-Python esetében például így néz ki egy formázott kódrészlet.
-\begin{python}
-import sys
+\Section{Engine}
+[Calculation of fuzzy rule interpolation and inference for resultant values]
+[Operations based on the mathematical fuzzy automaton]
+[Behavior control and further reusing output values]
 
-if __name__ == '__main__':
-    pass
-\end{python}
+\Section{Error Handling}
+[Built in Octave error handling, but a generic one should be used]
+[To avoid code entanglement and logically difficult to understand fault checking]
+[Reporting and error messages for helping find the apparent problem within the input code]
 
-A stílusfájlok a \texttt{styles} jegyzékben találhatók.
-A stílusok között szerepel még C++, Java és Rust stílusfájl.
-Ezek használatához a \texttt{dolgozat.tex} fájl elején \texttt{usepackage} paranccsal hozzá kell adni a stílust, majd a stílusfájl nevével megegyező környezetet lehet használni.
-További példaként C++ forráskód esetében ez így szerepel.
-\begin{cpp}
-#include <iostream>
-
-class Sample : public Object
-{
-    // An empty class definition
-}
-\end{cpp}
-Stílusfájlokból elegendő csak annyit meghagyni, amennyire a dolgozatban szükség van.
-Más, C szintaktikájú nyelvekhez (mint például a JavaScript és C\#) a Java vagy C++ stílusfájlok átszerkesztésére van szükség.
-(Elegendő lehet csak a fájlnevet átírni, és a fájlban a környezet nevét.)
-
-Nyers adatok, parancssori kimenetek megjelenítéséhez a \texttt{verbatim} környezetet lehet használni.
-\begin{verbatim}
-$ some commands with arguments
-1 2 3 4 5
-$ _
-\end{verbatim}
-
-A kutatás jellegű témáknál ez a fejezet gyakorlatilag kimaradhat.
-Helyette inkább a fő vizsgálati módszerek, kutatási irányok kaphatnak külön-külön fejezeteket.
+\Section{Future Extensions}
+With time programming languages usually evolve, and the FBDL is no exception, therefore it is quite sensible to employ an architecture that is capable of adaptation to changes in code and also leaves room for extensions. Various elements in the language such as strings, numbers, terminals and keywords are susceptible to change. Regarding the first in the list, strings might contain escape characters and as such the \textit{lexer} must store a list of characters that are accepted as valid escape sequences. 

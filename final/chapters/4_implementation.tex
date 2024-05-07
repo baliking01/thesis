@@ -54,9 +54,9 @@ The length of a given string is unknown when iterating over it, the only way to 
 
 Escape characters are not yet allowed in strings and there are no implementations to process them, they are simple copied as literal characters just as the rest of the string.
 
-With EBNF :
+With extended Backus-Naur form :
 \begin{grammar}
-<string> ::= '' <character>* ''
+<string> ::= '' character* ''
 \end{grammar}
 
 \SubSection{Number}
@@ -64,27 +64,159 @@ The first thing to consider when checking for numerical constants is the presenc
 
 After passing these checks the series of digits is copied from the input text and is converted to a double precision floating point type, which is then returned in the token. This step allows direct referencing of the token's value during calculations in the engine without needing to do the conversion there.
 
-With EBNF :
+With extended Backus-Naur form :
 \begin{grammar}
-<number> ::=  -?  (<integer> | <fraction>)
+<number> ::=  [-]  (integer | fraction)
 
-<integer> ::= <digit-z>+ <digit>*
+<integer> ::= digit-z+ digit*
 
-<fraction> ::= (<integer> | 0) . <digit>*
+<fraction> ::= (integer | 0) `.' digit*
 
-<digit> ::= 0 | <digit-z>
+<digit> ::= 0 | digit-z
 
 <digit-z> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
 \end{grammar}
 
 \Section{Parser}
-Every language conforms to some form of grammatical rule base from which it cannot deviate, otherwise it would not be valid.
-[Overview of each grammar rule]
-[Specific implementation to parse the given grammar with recursive descent parsing technique]
-[Building the syntax tree and considerations for the data structures being used]
-[Additional semantical checks after parsing]
-[Room for possible future extensions: warnings for missing elements, parsing optional arguments, rule domination hierarchy, extension of the existing grammar?, other parsing techniques required in case of certain grammar modification, eg.: precedence climbing for evaluation of mathematical expressions instead of using constants]
+Every language conforms to some form of grammatical rule base from which it cannot deviate, otherwise it would not be valid. The grammar employed by the FBDL has been showcased before and now the part that is responsible for the correct interpretation of code that uses said grammar will be explained. The interpreter makes use of a technique called \textit{recursive descent top-down parsing}, where every non-terminal in the grammar is handled by a dedicated function. In this section each rule within the grammar will be compared against the code of the parser to see its method of operation and also note some problems which often times make the process more complicated than it necessarily should be. Since the actual implementation of each function is quite lengthy it is most adequate to demonstrate only the underlying logic via pseudo code.
+
+The very first rule is straight forward, stating that there must be at least 1 occurrence with regards to the \textit{universe} and \textit{rulebase}. The \textit{init} optional part is not implemented in the program, therefore it will be skipped.
+\begin{grammar}
+<behavior> ::= universe+ rulebase+ [init]
+
+<universe> ::= `universe' string [`description' string] symbol+ `end'
+
+<symbol> ::= string number number
+\end{grammar}
+
+Every language construct besides terminals and the first rule is enclosed between two keywords, namely the one indicating what object it is defining and an \textit{end} keyword. The \textit{universe} requires a name of type string and a series of symbols, which will define the variables and their range of values for later usage. Despite an optional description being available in the grammar, this and all such options in the following rules are yet to be implemented and therefore no algorithm is given for the procedure.
+
+\begin{algorithm}[H]
+	\KwResult{Universe:}
+	\If{token is literal}{
+		universe.name = token.value\;
+		check optional description\;
+		next token\;
+		\While{token is literal}{
+			symbol.name = token.value\;
+			next token\;
+			\If{token is number}{
+				symbol.position = token.value\;
+			}
+			next token\;
+			\If{token is number}{
+				symbol.value = token.value\;
+			}
+			next token\;
+		}
+		\If{keyword is 'end'}{
+			universe += symbol\;
+			return universe\;
+		}
+	}
+\caption{Parsing: \textit{universe}}
+\end{algorithm}
+
+Implementation and language specific elements have been eliminated or reduced as much as possible for clarity, furthermore all checks and  error messages have been omitted in order to provide the minimal code required while preserving its semantic integrity. Similar simplifications will be used for all demonstrations to keep the focus on understanding the algorithm rather than being lost in obscure syntax.
+
+With that said the next rule is concerned with the \textit{rulebase}, which is almost identical to the \textit{universe} only differing in the containment of a series \textit{rule} elements as opposed to \textit{symbols}.
+\begin{grammar}
+<rulebase> ::= `rulebase' string [`description' string] rules `end'
+
+<rules> ::= rule+
+\end{grammar}
+
+However these rules require an algorithm much more complicated than in the case of the previous grammar rules.
+\begin{grammar}
+<rule> ::= `rule' [`description' string] [`use'] string [`when' predicates] `end'
+
+<predicates> ::= predicate (`and' predicate)*
+
+<predicate> ::= string `is' string
+\end{grammar}
+
+Once again discarding the first optional argument, the \textit{use} keyword references the value of a previously calculated variable and is further used  in calculating behavior fusion resulting from all other behavior components, i.e. rule-bases.
+
+\begin{algorithm}[H]
+	\KwResult{Rule:}
+	\uIf{token is literal or keyword}{
+		read optional arguments\;
+		next token\;
+		\If{token is `when' keyword}{
+			read predicates\;
+		}
+	}
+	\uElseIf{token is not `end' keyword}{
+		error\;
+	}
+	\Else{
+		error\;
+	}
+\caption{Parsing: \textit{rule}}
+\end{algorithm}
+
+These two algorithms occupy the same function, but to avoid any ambiguity they have been presented as separate. In the case of every grammar rule the checking of enclosing keywords is paramount along with other type checks as well. Encountering a problem, as denoted by \textit{error},  at any point in these functions will result in the program exiting and returning an appropriate error message.
+
+\begin{algorithm}[H]
+	\KwResult{Predicates:}
+	\While{token is not `end'}{
+		next token\;
+		\If{token is literal}{
+			antecedent = token.value\;
+		}
+		next token\;
+		\If{token is  not `is' keyword}{
+			error\;
+		}
+		next token\;
+		\If{token is literal}{
+			value = token.value\;
+		}
+		next token\;
+	
+		\If{antecedent already in predicates}{
+			error\;
+		}
+		next token\;
+		\If{token is neither `and' nor `end' keyword}{
+			error\;
+		}
+	}
+\caption{Parsing: \textit{predicates}}
+\end{algorithm}
+
+The series of predicates is processed in the same manner is the \textit{symbols} from before, albeit with a longer algorithm. Furthermore in case any antecedent is already present in the list of predicates, in other words it is a duplicate predicate, an error is raised.
+
+After the parsing of the input stream is completed additional semantic checks are required to ensure that the variables used within rules conform to previous definitions regarding names and values; the same applies to the rules themselves, including the predicates.
+
+\begin{octave}
+function checkRulebaseNames(behavior)
+  len = length(behavior.rulebases);
+  if len == 0
+    error("Parse error! At least one rulebase must exist!\n")
+  end
+
+  for i = 1:len
+    if !isfield(behavior.universes, behavior.rulebases(i).name)
+      error("Parse error! Missing universe definition for rulebase\n");
+    end
+  end
+end
+\end{octave}
+
+If any part of a given rule, be it a consequent or an antecedent, is not present in the universe then it is reported as an error, since it has not been previously defined.
+\begin{octave}
+function checkRulebaseRules(behavior)
+  for i = 1:length(behavior.rulebases)
+    rulebase = behavior.rulebases(i);
+    for j = 1:length(rulebase.rules)
+      rule = rulebase.rules(j);
+      checkRule(rulebase.name, rule, behavior.universes);
+    end
+  end
+end
+\end{octave}
 
 \Section{Engine}
 [Calculation of fuzzy rule interpolation and inference for resultant values]
@@ -92,9 +224,29 @@ Every language conforms to some form of grammatical rule base from which it cann
 [Behavior control and further reusing output values]
 
 \Section{Error Handling}
-[Built in Octave error handling, but a generic one should be used]
-[To avoid code entanglement and logically difficult to understand fault checking]
-[Reporting and error messages for helping find the apparent problem within the input code]
+Upon encountering an error the program should terminate its operations immediately, report the fault with informative messages and then exit gracefully. A ``token" based method was considered before to check the integrity of operations; in response to catching an error a special token would be emitted and since the top-most function is the one receiving these tokens, specifically the parser, it should be the one to terminate the program. However the probability of errors occurring is numerous and creating tokens at every one of these places is neither a space efficient nor a logically sound approach, leading to much confusion and clutter. The preferred method chosen was using the \textit{error(msg)} function both found in Octave and MATLAB, where a message \textit{msg} would also be displayed to the user. Calling the function directly is not appropriate, since not only the fault needs to be reported, but its position as well. Furthermore to facilitate the process of locating the problematic section of code resulting in the error, the whole line where the program failed is printed to the screen.
+
+\begin{octave}
+function raiseError (lexer, type, msg)
+  while (lexer.cursor <= lexer.content_len &&
+       lexer.content(lexer.cursor) != "\n")
+    lexer.cursor++;
+  end
+
+  snippet = substr(lexer.content,
+  lexer.beginning_of_line, lexer.cursor - lexer.beginning_of_line);
+  error("%s! At line %d, column %d!\n%s\n%s\n",
+    type, lexer.line, lexer.cursor - lexer.beginning_of_line,
+    msg, snippet);
+end
+\end{octave}
+
 
 \Section{Future Extensions}
-With time programming languages usually evolve, and the FBDL is no exception, therefore it is quite sensible to employ an architecture that is capable of adaptation to changes in code and also leaves room for extensions. Various elements in the language such as strings, numbers, terminals and keywords are susceptible to change. Regarding the first in the list, strings might contain escape characters and as such the \textit{lexer} must store a list of characters that are accepted as valid escape sequences. 
+With time programming languages usually evolve, and the FBDL is no exception, therefore it is quite sensible to employ an architecture that is capable of adapting to changes in code and also leaves room for extensions. Various elements in the language such as strings, numbers, terminals and keywords or even grammar are susceptible to change. Regarding the first in the list, strings might contain escape characters and as such the \textit{lexer} must store a list of characters that are accepted as valid escape sequences and during the parsing of strings correctly map them to the given control character. Number definitions could also include scientific notation or perhaps even complex numbers, although the benefits of the latter are not obvious to me. Implementing functions would require the modification of the grammar and also introducing new elements to parsing, namely identifiers and terminals, hence the main reason they are considered reserved.
+
+Moving on to the parser, the processing of optional arguments should be implemented at some point along with warning messages, when they are missing. In the original paper \cite{pillerkovacs2015}, a hierarchical implementation of rules is also defined with the help of the \textit{dominates} keyword, which also ought to be interpreted correctly to work with multiple, highly interconnected rules. With regards to numbers once more, currently only numerical constants are accepted as valid values, but should the need arise for them to be replaced with mathematical expressions, then new parsing techniques would also be required, namely precedence climbing, in order to handle these cases.
+
+[engine future extensions]
+
+Although these possible extensions mentioned might evoke optimism for broadening the language a fundamental property would be lost in the process, that being its simplicity. Therefore one should carefully consider before any significant alteration to the language what is to be gained with these additions of ``tools" and what is to be lost.

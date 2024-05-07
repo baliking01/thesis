@@ -243,7 +243,7 @@ The language aims to provide an environment that enables the creation of program
 
 \SubSection{Language Specifications}
 An easy to use language encompasses not just logical abstraction, but is also simple in terms of syntax.
-An SQL-like syntax for verbosity and the lack of special characters or any complicated notation schemes makes it appeal to a wider audience than it would otherwise. The specifications for the grammar is provided below using the extended Backus-Naur form.
+An SQL-like syntax for verbosity and the lack of special characters or any complicated notation schemes makes it appeal to a wider audience than it would otherwise. The specifications for the grammar is provided below using the extended Backus-Naur form. Note that the interpreter discussed in this work is based on a JavaScript implementation from the same paper \cite{pillerkovacs2015}.
 
 \begin{grammar}
 <behavior> ::= universe+ rulebase+ [init]
@@ -298,5 +298,3 @@ For a more concise representation a railroad diagram of each element is also inc
 \end{figure}
 
 [Fix rule and term block]
-
-The interpreter discussed in this work is based on a JavaScript implementation from the same paper \cite{pillerkovacs2015}.

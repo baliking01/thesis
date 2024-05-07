@@ -10,7 +10,7 @@ As opposed to classical sets, every element in a fuzyz set has an additional pro
 Let $U$, referred to as the \textit{universe of discourse}, be a set containing all the elements we wish to describe and define $m:U \to [0, 1]$ as a membership function. The pair $(U, m) $ forms a fuzzy set $A$ in which $\forall x \in U$ the value given by $m(x)$ is called the degree of membership of $x$. The function $m(x)$ is equivalent to $\mu_{a}(x)$.
 \end{definition}
 
-Taking the example from Claudio Moraga's \textit{Introduction to fuzzy logic} (2005) \cite{moraga2005intro}: given the interval $[0, 10]$ of the real line as our universe of discourse and the statement ``x is between 3 and 5'', we may represent it with the function $\mu_{3-5}:[0, 10] \to [0,1]$. Where $\mu_{3-5}(x) = 1$ if $3 \leq x \geq 5$, and $\mu_{3-5}(x) = 0$ otherwise as seen on fig1.a. This function describes the classical set $[3, 5]$. Consider now the statement ``x is near 4''. The proximity, or nearness to the number $4$ can be represented as $4-\epsilon$, given the assumption that $\epsilon$ is a sufficiently small positive real number. Values obtained by the continued subtraction of $\epsilon$ will have a decreasing \textit{``degree of nearness''} to $4$ until the value, and subsequently those smaller then itself, is no longer considered to be ``near'' the number $4$. Repeating this experiment with $4+\epsilon$ and the continued addition of $\epsilon$ will yield symmetric results. If we take the function $\mu_{near 4} : [0, 10] \to [0, 1]$ to represent this statement just as previously, it becomes apparent that it cannot be of the same kind as $\mu_{3-5}$ (that lead to a classical set). If we assume that 3 and 5 are acceptable limit points for ``near 4” and marking these as , $\alpha_{min} = 3, \alpha_{max} = 5, beta = 4$, then
+Taking the example from Claudio Moraga's \textit{Introduction to fuzzy logic} (2005) \cite{moraga2005}: given the interval $[0, 10]$ of the real line as our universe of discourse and the statement ``x is between 3 and 5'', we may represent it with the function $\mu_{3-5}:[0, 10] \to [0,1]$. Where $\mu_{3-5}(x) = 1$ if $3 \leq x \geq 5$, and $\mu_{3-5}(x) = 0$ otherwise as seen on fig1.a. This function describes the classical set $[3, 5]$. Consider now the statement ``x is near 4''. The proximity, or nearness to the number $4$ can be represented as $4-\epsilon$, given the assumption that $\epsilon$ is a sufficiently small positive real number. Values obtained by the continued subtraction of $\epsilon$ will have a decreasing \textit{``degree of nearness''} to $4$ until the value, and subsequently those smaller then itself, is no longer considered to be ``near'' the number $4$. Repeating this experiment with $4+\epsilon$ and the continued addition of $\epsilon$ will yield symmetric results. If we take the function $\mu_{near 4} : [0, 10] \to [0, 1]$ to represent this statement just as previously, it becomes apparent that it cannot be of the same kind as $\mu_{3-5}$ (that lead to a classical set). If we assume that 3 and 5 are acceptable limit points for ``near 4” and marking these as , $\alpha_{min} = 3, \alpha_{max} = 5, beta = 4$, then
 
 \[
 	\mu_{near 4}(x) =
@@ -53,7 +53,7 @@ The function will be continuous and increasing for $3 < x < 4 and$ will be conti
 \label{fig:steepness}
 \end{figure}
 
-Other than assigning values linearly to elements not fully contained inside a fuzzy set any kind of membership function can be utilized, but by far the most common is the previously mentioned linear way, which produces a trapeziod shape during visualization (Triangles arise, when the upper side of the trapezoid is a point). In terms of terminology the following expressions are defined regarding any given fuzzy set:
+Other than assigning values linearly to elements not fully contained inside a fuzzy set any kind of membership function can be utilized, but by far the most common is the previously mentioned linear way, which produces a trapeziod shape during visualization (Triangles arise, when the upper side of the trapezoid is a point). As mentioned by \cite{sabri2013}, in terms of terminology the following expressions are defined regarding any given fuzzy set:
 
 \textit{Core:} Elements where the membership function is 1:
 \[
@@ -76,7 +76,7 @@ Other than assigning values linearly to elements not fully contained inside a fu
 \]
 
 \SubSection{Various Membership Functions}
-An example of the different shapes that a membeship function may take include the following cases and their respective definitions:
+An example of the different shapes that a membership function may take include the following cases and their respective definitions appearing in \cite{sabri2013}:
 
 \textbf{Triangular} (Same as in the above example, a special case of the trapezoid):
 \[
@@ -155,7 +155,7 @@ For a simple example consider one's age as a variable and the two sets: young an
 \end{figure}
 
 \Section{Applications of Fuzzy Logic}
-Many fields make use of fuzzy logic and all the differing unique characteristics from ordinary sets that it has to offer. Fuzzy logic is best suited for problems that may be hard to define or model precisely with Boolean-logic. A collection of some notable examples of already tried and implemented solutions explored by [cite Makkar] are discussed in this section.
+Many fields make use of fuzzy logic and all the differing unique characteristics from ordinary sets that it has to offer. Fuzzy logic is best suited for problems that may be hard to define or model precisely with Boolean-logic. A collection of some notable examples of already tried and implemented solutions explored by \cite{makkar2018} are discussed in this section.
 
 \SubSection{Healthcare}
 Due to the intrinsic non-linearity of biomedical systems it is difficult to accurately model various processes. Regulation of blood pressure in the case of medical patients has been tested with the help of a real time drug delivery system that used an integrated fuzzy controller. Separately, it has also been shown that test reports yield estimates of likelihood rather than confirmation of presence or absence of a disease, hence these empirical estimates can be treated as the output of a membership function and used as such in fuzzy inference modelling.
@@ -170,20 +170,21 @@ Pappis and Mamdani (1977) applied fuzzy logic to control the flow of traffic at 
 Perhaps the most intriguing application found in the field of fuzzy logic is the modelling of certain behaviors of systems. Of course the topic being the bulk of this work, its details and methods of operation will we furhter elaborated, but here we examine the interesting possibilites fuzzy logic and fuzzy control can offer us in the form of  behavior control. The main difficulty of simulation or prediction of evolution regarding such systems comes from its dependence on a large number of variables and combinations of possible outcomes making it extremely difficult to model with great accuracy. Fuzzy logic allows, in a sense, to approximate these processes and provide a reasonably close solution to the problem. It closely resembles the natural ways of decision making as well, given the fact that there are no sharp boundaries needing to be crossed while considering a decision as it follows, by definition, a continous range of values.
 
 \Section{Fuzzy Rules}
-The behavior of a system can be represented by a simple model if we consider only its relevant aspects. Such a construct makes use of a set of rules in the ``if - then'' form. Fuzzy rules are categorized by two major types, Mamdani fuzzy rules and Takagi-Sueno fuzzy rules [cite]. In the general form of a fuzzy rule a list of antecednets is followed by a number of consquents such that:
+Following \cite{sabri2013}, the behavior of a system can be represented by a simple model if we consider only its relevant aspects. Such a construct makes use of a set of rules in the ``if - then'' form. Fuzzy rules are categorized by two major types, Mamdani fuzzy rules and Takagi-Sueno fuzzy rules. In the general form of a fuzzy rule a list of antecednets is followed by a number of consquents such that:
 
-\[
-	\text{if}  <antecedent_1> \text{and} \ldots \text{and} <antecedent_n>,	\text{then} <consequent_1> \text{and}  \ldots \text{and} <consequent_n>
-\]
+\begin{quote}
+	if $<antecedent_1>$ and $\ldots$ and $<antecedent_n>$, then
+	$<consequent_1>$ and $\ldots$ and $<consequent_n>$
+\end{quote}
 
-where the \textit{antecedent} is of the form $v_1$ is $S_1$ and the consequent $z_1$ is $W_1$ respectively. $v_i$ is an input variable belonging to the input fuzzy set $S_i$ and $z_j$ is an output variable of the output fuzzy set $W_j$.
+\noindent where the \textit{antecedent} is of the form $v_1$ is $S_1$ and the consequent $z_1$ is $W_1$ respectively. $v_i$ is an input variable belonging to the input fuzzy set $S_i$ and $z_j$ is an output variable of the output fuzzy set $W_j$.
 In the case of Takagi-Sueno fuzzy rules the consequents are replaced with functions of the input variables so that $z_j = f_p(v_1, \ldots, v_i)$, where $f_p$ is any real function.
 
 \SubSection{Fuzzy Inference}
 In order to use fuzzy logic for any sort of application we must first consider how to integrate it with existing Boolean-logic. More precisely, we are interested in a solution that operates on linguistic variables and an outcome that relies solely on fuzzy rules along with linguistic terms. Since the input variables to any given system are usually not fuzzy ones, they must be converted to satisfy this requirement in order to then later be used within the fuzzy application. This first step is called \textbf{fuzzification} and as the name implies we make sure to supply our further calculations with variables of the correct form. By taking the desired element $x \in U$ from our universe of discourse and some fuzzy set $A$ we convert $x$ to a membership function value, given by $\mu_{A}(x)$. Repeating this procedure for every element we wish to utilize yields a degree of membership for each one, therefore translating all discrete inputs to fuzzy ones.
 
 Now that we have a number of fuzzy variables to work with the next step is to apply predefined rules of the form described in the previous section. This step is referred to as \textbf{inference} and mathematically it is a mapping of the antecedents (input variables) to the consequents (output variables), resulting in an output fuzzy set. A degree of membership of any variable in this resultant set is depended upon the degree of membership of values in the input set or sets that have been defined by the given rule. That is to say, let $A$ and $B$ be fuzzy set of the antecedent and $C$ of the consequent respectively and $X$, $Y$, $Z$ linguistic terms. Then, according to the rule 
-
+	
 \[
 	\text{if } A \text{ is } X \text{ and } B \text{ is } Y \text{ then } C \text{ is } Z
 \]
@@ -193,26 +194,109 @@ In a similar manner to the calculation of the membership functions there are a m
 
 [Figures and further description of the FRI process]
 [Greater detail about the calculation of the area under the combined membership function shape, determining the core's position (eg.: cog)]
-[Different methods of preforming FRI]
-
+[Different methods of preforming FRI \cite{kovacsjohanyak2018}]
+		
 [Defuzzification and graphical representation of the aggregated value given by the area of the interpolated membership functions]
 
 \Section{Fuzzy Automaton and Behavior Control}
 Behavior is, in the most simple sense, a series of states, where a transition between two states occurs in response to some event. The closest and most accurate mathematical model to this notion are state machines, which follow an almost identical definition. 
-[Fuzzy logic controllers and connection to state machines]
-[Simple example]
-[Figure by Sz. Kovacs about the construction and inner workings of fuzzy automata]
-[Depiction of interconnected components and their functions]
+
+Integrating fuzzy logic into a state machine will result in a Fuzzy Finite-state Automaton (FFA); this work uses the same model as in \cite{pillerkovacs2015}; where the definition is given in the following manner:
+
+\[
+	F = (S, X \delta, P, O, Y, \sigma, \omega),
+\]
+
+\noindent where
+
+\hspace*{0.5cm}%
+\begin{minipage}{.8\textwidth}%
+       $S$ is a finite set of fuzzy states, $S = \{\mu_{s1}, \mu_{s2}, \ldots, \mu_{sn}\}$.
+
+      $X$ is a finite dimensional input vector, $X = \{x_1, x_2, \ldots, x_m\}$.
+
+      $P \in S$ is the fuzzy start state of $F$.
+      
+     $O$ is a finite dimensional observation vector, $O = \{o_1, o_2, \ldots, o_p\}$.
+	
+	$Y$ is a finite dimensional output vector, $Y = \{y_1, y_2, \ldots, y_l\}$.
+	
+	$\delta : S \times X \rightarrow S$ is the fuzzy state-transition function which is used to map the current fuzzy state to the next fuzzy state based on the input value.
+	
+	$\sigma : O \rightarrow X$ is the input function which is used to map the observation to the input value.
+	
+	$\omega : S \times X \times Y$ is the output function which is used to map the fuzzy state and input to the output value.
+\end{minipage}%
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/fuzzy_automaton}
+	\caption{Fuzzy Automaton}
+\end{figure}
 
 \Section{Fuzzy Behavior Description Language}
-After having discussed in detail the needed prerequisites for greater unedrstanding we can finally turn our attention to the main topic of this work, namely the language with which the aforementioned fuzzy behavior can be described. 
+After having discussed in detail the needed prerequisites for greater understanding we can finally turn our attention to the main topic of this work, namely the language with which the aforementioned fuzzy behavior can be described. 
 
 
 \SubSection{Motivation}
-[Motivation behind the fuzzy behavior description language]
+The language aims to provide an environment that enables the creation of programs utilizing fuzzy logic while requiring minimal to almost no prior knowledge in the field of programming. The target applications mainly entail those that delve into behavior control, as its name implies, and in order to facilitate the efficient development of such programs a higher level of abstraction is required leaving the specific implementations with regards to hardware constraints and fuzzy calculations to their respective layers of operation.
 
 \SubSection{Language Specifications}
-[Language specifications and requirements: syntax, grammar with BNF and railroad diagram]
+An easy to use language encompasses not just logical abstraction, but is also simple in terms of syntax.
+An SQL-like syntax for verbosity and the lack of special characters or any complicated notation schemes makes it appeal to a wider audience than it would otherwise. The specifications for the grammar is provided below using the extended Backus-Naur form.
 
-\SubSection{Previous Works}
-[Previous works on an FBDL interpreter, Javascript library]
+\begin{grammar}
+<behavior> ::= universe+ rulebase+ [init]
+
+<universe> ::= `universe' string [`description' string] symbol+ `end'
+
+<symbol> ::= string number number
+
+<rulebase> ::= `rulebase' string [`description' string] rules `end'
+
+<rules> ::= rule+
+
+<rule> ::= `rule' [`description' string] [`use'] string [`when' predicates] `end'
+
+<predicates> ::= predicate (`and' predicate)*
+
+<predicate> ::= string `is' string
+
+<init> ::= `init' [`description' string] (string (string | number))+ `end'
+\end{grammar}
+
+For a more concise representation a railroad diagram of each element is also included \cite{pillerkovacs2015}.
+
+\begin{figure}[!h]
+	\centering
+	\begin{subfigure}[b]{0.8\textwidth}
+		\centering
+        	\includegraphics[width=0.8\textwidth]{images/rulebase_1}
+		\includegraphics[width=0.8\textwidth]{images/rulebase_2}
+        	\caption{Rulebase definition}
+    \end{subfigure}
+	
+	\begin{subfigure}[b]{0.9\textwidth}
+        	\centering
+        	\includegraphics[width=0.8\textwidth]{images/method}
+		\caption{Method definition}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{0.9\textwidth}
+        	\centering
+        	\includegraphics[width=0.8\textwidth]{images/antecedent}
+		\caption{Antecedent definition}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{0.9\textwidth}
+        	\centering
+        	\includegraphics[width=0.8\textwidth]{images/consequent}
+		\caption{Consequent definition}
+    \end{subfigure}
+    
+	\caption{Syntax diagram of language elements}
+\end{figure}
+
+[Fix rule and term block]
+
+The interpreter discussed in this work is based on a JavaScript implementation from the same paper \cite{pillerkovacs2015}.

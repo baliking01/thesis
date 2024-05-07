@@ -54,12 +54,29 @@ The length of a given string is unknown when iterating over it, the only way to 
 
 Escape characters are not yet allowed in strings and there are no implementations to process them, they are simple copied as literal characters just as the rest of the string.
 
+With EBNF :
+\begin{grammar}
+<string> ::= '' <character>* ''
+\end{grammar}
+
 \SubSection{Number}
-The first thing to consider when checking for numerical constants is the presence of the optional negative sign, since it is not itself a numerical value, most often being denoted with a \textit{- (dash)}. Then a series of numbers, digits, must follow until the end of the token; the very first digit cannot be zero. Every number may contain a single negative sign before the first digit and a single decimal point between two adjacent digits marked by a \textit{. (dot)} character. Failing to meet any of these conditions will result in a syntactical error being raised and the program exiting.
+The first thing to consider when checking for numerical constants is the presence of the optional negative sign, since it is not itself a numerical value, most often being denoted with a \textit{- (dash)}. The absence of such a sign implicitly implies a positive number, therefore the need for a \textit{+ (plus)} sign is eliminated and is not processed. Then a series of numbers, digits, must follow until the end of the token; the very first digit cannot be zero. Every number may contain a single negative sign before the first digit and a single decimal point between two adjacent digits marked by a \textit{. (dot)} character. Failing to meet any of these conditions will result in a syntactical error being raised and the program exiting.
 
 After passing these checks the series of digits is copied from the input text and is converted to a double precision floating point type, which is then returned in the token. This step allows direct referencing of the token's value during calculations in the engine without needing to do the conversion there.
 
+With EBNF :
+\begin{grammar}
+<number> ::=  -?  (<integer> | <fraction>)
 
+<integer> ::= <digit-z>+ <digit>*
+
+<fraction> ::= (<integer> | 0) . <digit>*
+
+<digit> ::= 0 | <digit-z>
+
+<digit-z> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+\end{grammar}
 
 \Section{Parser}
 Every language conforms to some form of grammatical rule base from which it cannot deviate, otherwise it would not be valid.

@@ -50,8 +50,8 @@ Since the interpreter is not a standalone program, rather a library, its entry p
 			[\textit{Semantic checkers}]
 	  	]
 		[engine
-	    		[text1.2.1]
-	    		[text1.2.2]
+	    		[\textit{Integrity checkers}]
+	    		[\texitit{Calculating functions}]
 	  	]
 	]
 	\end{forest}
@@ -64,8 +64,7 @@ Since the interpreter is not a standalone program, rather a library, its entry p
 The program's entry point is a callable function that takes either a string or a file path as input and returns the solution vectors resulting from the fuzzy calculations. In both cases the content supplied must be a valid piece code written in FBDL. 
 
 [Extend with return value and engine/state machine]
-\begin{octave}
-function retval = main(input, type)
+function engine = simulator(input, type)
   retval = 0;
   addpath("lexer");
   addpath("lexer/utils");
@@ -78,13 +77,12 @@ function retval = main(input, type)
   elseif strcmp(type, "s")
     content = input;
   else
-    % TODO: Print usage
+    print_usage();
   end
 
   behavior = parser(content);
-  % Fuzzy state machine
-  %stateMachine = createStateMachine(behavior);
-  %step(stateMachine);
+  engine = createEngine(behavior);
+  engine = init(engine);
 end
 \end{octave}
 

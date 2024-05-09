@@ -219,9 +219,49 @@ end
 \end{octave}
 
 \Section{Engine}
-[Calculation of fuzzy rule interpolation and inference for resultant values]
-[Operations based on the mathematical fuzzy automaton]
-[Behavior control and further reusing output values]
+At the last stage of the operation is a direct implementation of the previously mentioned Fuzzy Automaton mathematical model, that performs all the necessary calculations required for simulating fuzzy behaviour. The entire system is a state machine, meaning that the initial values of the variables inside the universe will be used in the first and then subsequent transitions, and are subject to change as the automaton moves from one state to another.
+
+Similarly to the lexical analysis stage an \textit{engine} object is created at the beginning, which holds the syntax tree and also contains additional information such as the state of each variable, distance values and other elements as well. This structure is passed around by functions that use these data to calculate various intermediate variables for later determining the state transition of each variable. For easier referencing during processing the states and collection of antecedents are gathered and stored in a list. Before moving on, the integrity of these initial variables are checked and they must conform to the following conditions:
+
+\begin{itemize}
+	\item All universes listed must be defined.
+	\item The symbol values of a given universe must be bounded by the universe.
+	\item All input values must be defined.
+\end{itemize}
+
+As these are initial values the user of the interpreter can modify any of their parameters, name the values of variables, to fit their need or simply experiment.
+
+Next, we must evaluate the consequents, but before that it is required to calculate the distance of observations from the symbols on every antecedent universe. As listed by the example from \cite{pillerkovacs2019}:
+Considering the following universes and initial values defined:
+
+\begin{verbatim}
+universe "distance"
+	"zero" 0 0
+	"close" 1 0.1
+	"far" 5 1
+	"max" 10 1
+end
+\end{verbatim}
+
+and
+
+\begin{verbatim}
+universe "curiosity"
+	"low" 0 0
+	"high" 1 1
+end
+\end{verbatim}
+
+along with the initial conditions:
+
+\begin{verbatim}
+init
+	"distance" 3
+	"curiosity" 0.4
+end
+\end{verbatim}
+
+Considering the first rule, we must calculate the distance of 3 from ``far" on in the ``distance” universe. The distance is determined from the difference of the cumulative scaling function values of the two points. That is, the value of the cumulative scaling function at 3 is 0.55 and at ``far” it takes the value 1, therefore their cumulative scaled distance is 0.45. Similarly we can calculate the distance of 0.4 and “high” on “curiosity” interval.
 
 \Section{Error Handling}
 Upon encountering an error the program should terminate its operations immediately, report the fault with informative messages and then exit gracefully. A ``token" based method was considered before to check the integrity of operations; in response to catching an error a special token would be emitted and since the top-most function is the one receiving these tokens, specifically the parser, it should be the one to terminate the program. However the probability of errors occurring is numerous and creating tokens at every one of these places is neither a space efficient nor a logically sound approach, leading to much confusion and clutter. The preferred method chosen was using the \textit{error(msg)} function both found in Octave and MATLAB, where a message \textit{msg} would also be displayed to the user. Calling the function directly is not appropriate, since not only the fault needs to be reported, but its position as well. Furthermore to facilitate the process of locating the problematic section of code resulting in the error, the whole line where the program failed is printed to the screen.

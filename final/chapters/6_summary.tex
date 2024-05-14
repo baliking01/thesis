@@ -1,7 +1,8 @@
-\Chapter{Összefoglalás}
+\Chapter{Summary}
+The interpreter has been written and implemented in Octave and is yet to be tested in the MATLAB environment, but since it has been designed with consideration for both languages, at most, only a minimal or at best, no amount of modification should be preformed. The complete source code is present on the physical copy provided alongside this work available and also available on github, which can be downloaded from https://github.com/baliking01/FBDL\_Interpreter.
 
-Hasonló szerepe van, mint a bevezetésnek.
-Itt már múltidőben lehet beszélni.
-A szerző saját meglátása szerint kell összegezni és értékelni a dolgozat fontosabb eredményeit.
-Meg lehet benne említeni, hogy mi az ami jobban, mi az ami kevésbé jobban sikerült a tervezettnél.
-El lehet benne mondani, hogy milyen további tervek, fejlesztési lehetőségek vannak még a témával kapcsolatban.
+With the functions provided by the interpreter, the user can manipulate the fuzzy state machine and change or analyze its current state. In subsequent version and iteration of the interpreter, more functions should be added that further facilitate this process, Furthermore, it is evident that passing around the engine is very cumbersome and classes could offer significant improvement over the current implementation, however this way it remains compatible with various versions of both languages. Despite it being a usable solution, more user friendly approaches and implementations should be developed in the future along with a focus on performance and memory constraints.
+
+A major advantage offered by these languages is the many scientific functions they provide, which can be used to interact with the fuzzy state machine; displaying rule surfaces for example. Since the original purpose of creating the language was to allow easy programming of ethological simulation models, complicated calculations and data structures are not necessary due to the abstractions that both MATLAB and Octave offer, thus the user can fully focus on the FBDL source code.
+
+Although the interpreter described here is fully functional, there are still many things left to improve and some even to be extended. With constantly ongoing research in the field of fuzzy logic, I hope, that this piece of software can be of use and aid those looking for practical applications by providing an adequate working environment for new discoveries.

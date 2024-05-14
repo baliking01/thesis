@@ -1,7 +1,40 @@
-\Chapter{Tesztelés}
+\Chapter{Testing}
 
-A fejezetben be kell mutatni, hogy az elkészült alkalmazás hogyan használható.
-(Az, hogy hogyan kell, hogy működjön, és hogy hogy lett elkészítve, az előző fejezetekben már megtörtént.)
+In order to make sure that all the modules and different parts of the interpreter function correctly the program must be subject to thorough testing. Evaluating the critical components and ensuring that they operate within the defined bounds; and even if they were to fail, each fatal case should be handled properly and produce correct, informative error messages.
+
+\Section{Unit Testing}
+At the end of each major function of the interpreter, namely the lexical analyzer, parser and engine there are a series of tests, which examine specific edge and corner cases. These are not yet complete and should be extended to include more obscure input patterns; the engine is particularly tricky to examine, since its operation is highly integrated with other functions and also produces many different outputs, whose integrity is difficult to verify.
+
+A minor obstacle in testing the code base in a bilingual environment is that native unit tests vary, making uniform integrity checks impossible. In the case of Octave every such test is located at the bottom of each function; as an example this part is from the lexer and is a case of correct negative number usage:
+
+\begin{octave}
+%!test
+%! content = "-4.5";
+%! [lex, token] = getNextToken(createLexer(content));
+%! assert(token.type, "number");
+%! assert(token.value, "-4.5");
+\end{octave}
+
+Every Octave unit test comes after a \%! pair and can either be a test block or a single line command such as:
+
+\begin{octave}
+%!error <incorrect use of decimal point> getNextToken(createLexer("4."))
+%!error <incorrect use of decimal point> getNextToken(createLexer("4.a"))
+%!error <unrecognized character> getNextToken(createLexer(".4"))
+%!error <incorrect use of decimal point>getNextToken(createLexer("4.5.6"))
+\end{octave}
+
+Where each of these inputs specified at the end will result in an error message, which is then successfully caught and handled by the function.
+
+In contrast to this, MATLAB supports unit tests that are written in separate script files and then run via a command. The incompatibility arises from the different syntax of these unit tests. Although storing multiple copies of test cases is redundant, at the same time it allows us to run the same unit tests on the same code base by using two different languages.
+
+\Section{Performance}
+In both MATLAB and Octave the ability to pass variables by reference is missing, therefore they can only be passed by value, meaning that each time a function call is made the inputs are copied for use inside the function. This is the main reason for passing around data structures in the interpreter; it's the only way to modify them without making them global. However, this comes at the cost of efficiency, since values and entire complicated data structures are constantly being copied, they slow down the program significantly.
+
+Some measurement data gives a reference to the performance of the interpreter. Reading the complete input data, parsing it and then initializing the engine takes about $0.5473s$ on average. Each advancement of the state machine, with its list of calculations, is performed in about $0.01435s$. Significantly higher execution speeds could be achieved with the help of parallel computing, implementing it on the parsing and evaluation of rules.
+
+[functions to interface with the interpreter]
+[previous example rule surface]
 
 Jellemzően az alábbi dolgok kerülhetnek ide.
 \begin{itemize}

@@ -1,8 +1,8 @@
 \Chapter{Design}
-Now, after having discussed the necessary concepts and ideas required to fully understand the mathematical model of the interpreter we can finally start inspecting its design requirements, what aspects must be taken into consideration, the language of choice, compatibility related questions etc. Regarding the task of interpretation, these types of programs conform to a specific pipeline that largely determines their architecture. With that said there is still leeway for flexibility and that allows us to adept and choose adequate data structures along with various techniques and algorithms for controlling data flow.
+Now, after having discussed the necessary concepts and ideas required to fully understand the mathematical model of the interpreter, we can finally start inspecting its design requirements, what aspects must be taken into consideration, the language of choice, compatibility related questions etc. Regarding the task of interpretation, these types of programs conform to a specific pipeline that largely determines their architecture. With that said there is still leeway for flexibility and that allows us to adept and choose adequate data structures along with various techniques and algorithms for controlling data flow.
 
 \Section{Requirements and Technical Considerations}
-Due to past research around fuzzy logic and its application in behavior control the need for having an adequate language along with a library or interpreter to make calculations easier also arose. For avoiding ambiguity, in the following discussions the terms library, program and interpreter are used interchangeably and should be treated as referring to the same concept, namely the FBDL interpreter. The entire operation of the program is based on the preceding works and research in fuzzy behavior control and behavior-based systems \cite{pillerkovacs2019}.
+Due to past research around fuzzy logic and its application in behavior control, the need for having an adequate language along with a library or interpreter to make calculations easier also arose. For avoiding ambiguity, in the following discussions the terms library, program and interpreter are used interchangeably and should be treated as referring to the same concept, namely the FBDL interpreter. The entire operation of the program is based on the preceding works and research in fuzzy behavior control and behavior-based systems \cite{pillerkovacs2019}.
 
 Many of the applied examples were produced in the MATLAB language, therefore facilitating the need for  developing a framework capable of operation in that environment. The similarity between the MATLAB and Octave programming languages presented a great opportunity; implementing the interpreter in such a way as to conform to both languages would make it more accessible and allow for wider usage. Therefore the decision was made to produce a program that uses in its operation only minimal parts that are found in both languages, thus making it compatible and interoperable.
 
@@ -102,7 +102,7 @@ As seen on figure \ref{fig:parserOp}, the parser continuously requests tokens fr
 Regarding the data structures used in the program, the most compatible with both languages were found to be the \textit{struct} and \textit{cell}, hence all complex objects are stored in such a manner. For clarity,  the \textit{cell} data type is not used as frequently, but in some parts it is more appropriate than other solutions. The most important of these objects is the \textit{lexer}, but others include \textit{token} and the \textit{syntax tree} along with other minor internal data structures that store and manage the information read during or after lexical analysis.
 
 \SubSection{Lexer}
-This structure holds the input and several key information about the position of the cursor currently analyzing the text. Due to organizing every function into its own file the lexer can only be either a global structure that gets modified by any given function or it is created locally in the top most function in terms of calling hierarchy and is passed around by every other function that needs either access to the input stream or the metadata stored in it. A separate function for creating a lexer is provided in foresight to unit testing, so as to avoid having to create it in every single test case.
+This structure holds the input and several key information about the position of the cursor currently analyzing the text. Due to organizing every function into its own file, the lexer can only be either a global structure that gets modified by any given function or it is created locally in the top most function in terms of calling hierarchy and is passed around by every other function that needs either access to the input stream or the metadata stored in it. A separate function for creating a lexer is provided in foresight to unit testing, so as to avoid having to create it in every single test case.
 
 \begin{octave}
 function lexer = createLexer(content)
@@ -126,13 +126,13 @@ end
 
 The input stream, or as \textit{content} in the lexer structure, is processed by one character at a time and the \textit{cursor} represents how many characters we have read so far, in other words our current position withing the supplied text. Lines are incremented with each encounter of a \textbackslash\textit{n (newline)} character. The staring position of the given token is also stored to allow for copying the value and report error messages, indicating the position of the incorrect token.
 
-The more complex structures seen on figures \ref{fig:lexerUML}, \ref{fig:parserUML} and \ref{fig:engineUML} are defined as composites, where the rectangles with rounded corners indicate some sort of data, either primitive or a structure, and ellipses denote some ``methods'' these structures access. Though these figures resemble UML diagrams it is important to note that the structures presented are not classes; this is simply a logical view to better understand the overall building blocks of the interpreter.
+The more complex structures seen on figures \ref{fig:lexerUML}, \ref{fig:parserUML} and \ref{fig:engineUML} are defined as composites, where the only their functions are visible. Though these figures resemble UML diagrams, it is important to note that the structures presented are not classes; this is simply a logical view to better understand the overall building blocks of the interpreter.
 
 \pagebreak
 
 \begin{figure}
 \centering
-	\includegraphics[width=0.4\textwidth]{images/lexerUML}
+	\includegraphics[width=0.33\textwidth]{images/lexerUML}
 	\caption{Lexer Structure}
 	\label{fig:lexerUML}
 \end{figure}
@@ -141,7 +141,7 @@ The more complex structures seen on figures \ref{fig:lexerUML}, \ref{fig:parserU
 \centering
 \begin{subfigure}{.5\textwidth}
 	\centering
-	\includegraphics[width=0.8\textwidth]{images/parserUML}
+	\includegraphics[width=0.74\textwidth]{images/parserUML}
 	\caption{Parser}
 	\label{fig:parserUML}
 \end{subfigure}%
@@ -204,7 +204,8 @@ During the process of parsing, every element of the language must be stored for 
 		 ]
 	\end{forest}
 	\caption{Syntax tree}
+	\label{fig:tree}
 \end{figure}
 
-The representation is only logical and not entirely accurate as it would take too much space to represent it in its whole from, but nonetheless it offers another clear depiction of the grammar besides BNF, EBNF and railroad diagrams.
+The representation on figure \ref{fig:tree} is only logical and not entirely accurate as it would take too much space to represent it in its whole from, but nonetheless it offers another clear depiction of the grammar besides BNF, EBNF and railroad diagrams.
 

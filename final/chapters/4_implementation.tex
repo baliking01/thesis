@@ -22,7 +22,7 @@ end
 
 Then we must determine if we have run into a comment line, marked by a \textit{\# (hashtag)} symbol or reached the end of the file. In the case of the former, we treat it in a similar manner to trimming, but only going until a \textit{\\n (newline} character is reached, whilst regarding the latter, a token is emitted with type \textit{EOF} and no value.
 
-Now we can finally start examining whether the stream of characters read from the input are part of an accepted token. Since we read individual characters from the input it is not possible to tell if it is going to be a valid token until we have read the whole word, however just from the first character we can categorize it as a possible token and then hand the procedure for checking to the appropriate function. In a case where an invalid character sequence is encountered the program raises a syntax error with the appropriate message and also displays the line and column numbers where the fault occurred, then exits.
+Now, we can finally start examining whether the stream of characters read from the input are part of an accepted token. Since we read individual characters from the input it is not possible to tell if it is going to be a valid token until we have read the whole word, however just from the first character we can categorize it as a possible token and then hand the procedure for checking to the appropriate function. In a case where an invalid character sequence is encountered the program raises a syntax error with the appropriate message and also displays the line and column numbers where the fault occurred, then exits.
 
 \SubSection{Identifier (reserved)}
 An identifier may start with an underscore or any letter from the English alphabet found in the ASCII character set; case sensitivity is not considered. Characters apart from the first one can include numbers as well. Since no functionality for handling identifiers are currently implemented in the latest version of the interpreter, and neither in the grammar of the FBDL, only keywords are permitted in the supplied FBDL source code. However given the similarity of lexical analysis in both cases some room has been left for possible accommodation of this feature at a later time.
@@ -122,7 +122,7 @@ Every language construct besides terminals and the first rule is enclosed betwee
 \end{algorithm}
 \vskip 0.5cm
 
-Implementation and language specific elements have been eliminated or reduced as much as possible for clarity in figure \ref{fig:parseuniverse}, furthermore all checks and error messages have been omitted in order to provide the minimal code required while preserving its semantic integrity. Similar simplifications will be used for all demonstrations to keep the focus on understanding the algorithm rather than being lost in obscure syntax.
+Implementation and language specific elements have been eliminated or reduced as much as possible for clarity in Algorithm \ref{fig:parseuniverse}, furthermore all checks and error messages have been omitted in order to provide the minimal code required while preserving its semantic integrity. Similar simplifications will be used for all demonstrations to keep the focus on understanding the algorithm rather than being lost in obscure syntax.
 
 With that said the next rule is concerned with the \textit{rulebase}, which is almost identical to the \textit{universe} only differing in the containment of a series \textit{rule} elements as opposed to \textit{symbols}.
 \begin{grammar}
@@ -140,7 +140,7 @@ However, these rules require an algorithm much more complicated than in the case
 <predicate> ::= string `is' string
 \end{grammar}
 
-Once again, as observed on figure \ref{parserule}, discarding the first optional argument, the \textit{use} keyword references the value of a previously calculated variable and is further used  in calculating behavior fusion resulting from all other behavior components, i.e. rule-bases.
+Once again, as observed on Algorithm \ref{fig:parserule}, discarding the first optional argument, the \textit{use} keyword references the value of a previously calculated variable and is further used  in calculating behavior fusion resulting from all other behavior components, i.e. rule-bases.
 
 \vskip 0.6cm
 \begin{algorithm}[H]
@@ -196,7 +196,7 @@ These two algorithms occupy the same function, but to avoid any ambiguity they h
 \end{algorithm}
 \vskip 0.6cm
 
-The series of predicates is processed in the same manner is the \textit{symbols} from before, albeit with a longer algorithm, seen in figure \ref{fig:parsepred}. Furthermore in case any antecedent is already present in the list of predicates, in other words, it is a duplicate predicate, an error is raised.
+The series of predicates is processed in the same manner is the \textit{symbols} from before, albeit with a longer algorithm, seen in Algorithm \ref{fig:parsepred}. Furthermore in case any antecedent is already present in the list of predicates, in other words, it is a duplicate predicate, an error is raised.
 
 After the parsing of the input stream is completed additional semantic checks are required to ensure that the variables used within rules conform to previous definitions regarding names and values; the same applies to the rules themselves, including the predicates.
 
@@ -231,7 +231,7 @@ end
 \Section{Engine}
 At the last stage of the operation is a direct implementation of the previously mentioned Fuzzy Automaton mathematical model, that performs all the necessary calculations required for simulating fuzzy behaviour. The entire system is a state machine, meaning that the initial values of the variables inside the universe will be used in the first and then subsequent transitions, and are subject to change as the automaton moves from one state to another.
 
-Similarly to the lexical analysis stage an \textit{engine} object is created at the beginning, which holds the syntax tree and also contains additional information such as the state of each variable, distance values and other elements as well. This structure is passed around by functions that use these data to calculate various intermediate variables for later determining the state transition of each variable. For easier referencing during processing the states and collection of antecedents are gathered and stored in a list. In the next step, the integrity of these initial variables are checked and they must conform to the following conditions:
+Similarly to the lexical analysis stage, an \textit{engine} object is created at the beginning, which holds the syntax tree and also contains additional information such as the state of each variable, distance values and other elements as well. This structure is passed around by functions that use these data to calculate various intermediate variables for later determining the state transition of each variable. For easier referencing during processing the states and collection of antecedents are gathered and stored in a list. In the next step, the integrity of these initial variables are checked and they must conform to the following conditions:
 
 \begin{itemize}
 	\item All universes listed must be defined.
@@ -292,7 +292,7 @@ The rule distance for the first rule can be calculated in the following manner:
 \]
 \noindent The other two rules are computed in the same way:
 \[
-	d_{rule2} = \frac{\sqrt{0.45^2}}{\sqrt{2}} \approx 0.3182,
+	d_{rule2} = \frac{\sqrt{0.45^2}}{\sqrt{2}} \approx 0.3182, \quad
 	d_{rule3} = \frac{\sqrt{0.4^2}}{\sqrt{2}} \approx 0.2828.
 \]
 
@@ -300,12 +300,12 @@ If the distance from some rules is 0, then the consequent is calculated as the \
 
 \noindent If $p = 1$, then the weights of the rules are respectively:
  \[
- 	w = 1.8856, 3.1427, 3.5355.
+ 	w_1 \approx 1.8856, \quad w_2 \approx  3.1427, \quad w_3 \approx  3.5355.
  \]
 
 \noindent The consequent values of the rules are:
 \[
-	c = 1, 0, 0.
+	c_1 = 1,\quad c_2 = 0,\quad c_3 = 0.
 \]
 
 \noindent The consequence can be obtained as the sum of weighted rule consequents, using the rule weights:

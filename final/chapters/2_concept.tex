@@ -23,7 +23,7 @@ Taking the example from Claudio Moraga's \textit{Introduction to fuzzy logic} (2
 		\end{cases}
 \]
 
-The function will be continuous and increasing for $3 < x < 4$ and will be continuous and decreasing for$ 4 < x < 5$. Without further information, linear transitions will be chosen as shown in \ref{fig:fuzzy}. $\mu_{near 4} $ represents a \textbf{fuzzy set}.
+The function will be continuous and increasing for $3 < x < 4$ and will be continuous and decreasing for $ 4 < x < 5$. Without further information, linear interpolation will be chosen as shown in \ref{fig:fuzzy}. $\mu_{near 4} $ represents a \textbf{fuzzy set}.
 
 \begin{figure}[!h]
 \centering
@@ -115,9 +115,8 @@ An example of the different shapes that a membership function may take include t
 
 \textbf{Exponential-like} function:
 \[
-	\mu_{A}(x) = \frac{1}{1 + \gamma(x - \beta)^2},
+	\mu_{A}(x) = \frac{1}{1 + \gamma(x - \beta)^2}, \quad \text{where }\gamma > 1.
 \]
-where $\gamma > 1$.
 
 \textbf{Gaussian} function:
 \[
@@ -130,7 +129,7 @@ Besides these, any function that fits the intended purpose of characterizing a c
 \SubSection{Dealing with Multiple Fuzzy Sets}
 There are some cases, where precise numerical measurements might not be required or even be detrimental, for example stating someone's age as being 17 years 32 days and 8 hours old, does not necessarily demand such accuracy. It is much more sensible to describe that person simply as young. This notion of the use of words in our statements instead of numerical values was introduced by Zadeh in 1975 and is called a \textbf{linguistic variable}. The varying values taken by such a variable can be described by \textbf{linguistic terms}, such as \textit{low, middle, high, very small, average, large}, meaning we are able to take advantage of natural language, thus making it easier to work with.
 
-For a simple example consider one's age as a variable, and the two sets: young and old. A person who is 5 years of age is considered very young and not at all old, similarly someone in their twenties may be called young, but slightly old as well, however a middle aged individual of 43 years is neither very young nor very old, but rather an even mix of both. Representing the two fuzzy sets, young and old, on figure \ref{fig:overlapping} we can see they overlap. Any value at this given interval of overlay is a linear combination of, in this particular case, both of these fuzzy sets. The number of sets can, of course, be extended and then the values at these intersection would be a linear combination of all the defined sets, given that they overlap. From giving proper definitions of how to operate on these linguistic variables arises the notion of \textbf{fuzzy logic} and subsequently it serves as the basis for many advanced concepts such as: inference, fuzzy decision making and fuzzy control.
+For a simple example consider one's age as a variable, and the two sets: young and old. A person who is 5 years of age is considered very young and not at all old, similarly someone in their twenties may be called young, but slightly old as well, however a middle aged individual of 43 years is neither very young nor very old, but rather an even mix of both. Representing the two fuzzy sets, young and old, on figure \ref{fig:overlapping} we can see, that they overlap each other. Any value at this given interval of overlay is a linear combination of, in this particular case, both of these fuzzy sets. The number of sets can, of course, be extended and then the values at these intersection would be a linear combination of all the defined sets, given that they overlap. From giving proper definitions of how to operate on these linguistic variables arises the notion of \textbf{fuzzy logic} and subsequently it serves as the basis for many advanced concepts such as: inference, fuzzy decision making and fuzzy control.
 
 \begin{figure}[!h]
 \centering
@@ -209,7 +208,7 @@ Integrating fuzzy logic into a state machine will result in a Fuzzy Finite-state
 \end{figure}
 
 \Section{Fuzzy Behavior Description Language}
-After having discussed in detail the needed prerequisites for greater understanding we can finally turn our attention to the main topic of this work, namely the language with which the aforementioned fuzzy behavior can be described. 
+After having discussed in detail the needed prerequisites for greater understanding, we can finally turn our attention to the main topic of this work, namely the language with which the aforementioned fuzzy behavior can be described. 
 
 
 \SubSection{Motivation}
@@ -239,7 +238,7 @@ An SQL-like syntax for verbosity and the lack of special characters or any compl
 <init> ::= `init' [`description' string] (string (string | number))+ `end'
 \end{grammar}
 
-As a graphical representation, a railroad diagram of each element is also included \cite{pillerkovacs2015}.
+As a graphical representation, a railroad diagram of each element, seen on figure \ref{fig:railroad}, is also included \cite{pillerkovacs2015}.
 
 \begin{figure}[!h]
 	\centering
@@ -281,5 +280,6 @@ As a graphical representation, a railroad diagram of each element is also includ
     \end{subfigure}
     
 	\caption{Syntax diagram of language elements}
+	\label{fig:railroad}
 \end{figure}
 

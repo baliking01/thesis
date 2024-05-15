@@ -1,20 +1,28 @@
 \pagestyle{empty}
 
-\noindent \textbf{\Large CD Használati útmutató}
+\noindent \textbf{\Large Adathordozó használati útmutató}
 
 \vskip 1cm
 
-Ennek a címe lehet például \textit{A mellékelt CD tartalma} vagy \textit{Adathordozó használati útmutató} is.
+A mellékelt adathordozón megtalálható a szakdolgozatban szereplő nyelvi fordító könyvtár teljes forráskódja, mely a következő formában van felosztva:
 
-Ez jellemzően csak egy fél-egy oldalas leírás.
-Arra szolgál, hogy ha valaki kézhez kapja a szakdolgozathoz tartozó CD-t, akkor tudja, hogy mi hol van rajta.
-Jellemzően elég csak felsorolni, hogy milyen jegyzékek vannak, és azokban mi található.
-Az elkészített programok telepítéséhez, futtatásához tartozó instrukciók kerülhetnek ide.
-
-A CD lemezre mindenképpen rá kell tenni
 \begin{itemize}
-\item a dolgozatot egy \texttt{dolgozat.pdf} fájl formájában,
-\item a LaTeX forráskódját a dolgozatnak,
-\item az elkészített programot, fontosabb futási eredményeket (például ha kép a kimenet),
-\item egy útmutatót a CD használatához (ami lehet ez a fejezet külön PDF-be vagy MarkDown fájlként kimentve).
+	\item \textbf{thesis}: A dolgozat \LaTeX\ forráskódja, valamint a lefordított \texttt{.pdf} fájl.
+	\item \textbf{interpreter}: A program forráskódja, amely modulok szerint szét van szedve még további részekre.
+	\item \textbf{images}: Képek a dolgozatban szereplő szabályfelület szemléltetésére.
+	\item \textbf{readme.md}: Programhoz tartozó telepítési és felhasználási instrukciók.
 \end{itemize}
+
+\noindent Továbbá az interpreter mappában az alábbi felosztások szerepelnek:
+\begin{enumerate}
+	\item \textbf{lexer}: Lexikális elemzőhöz tartozó függvények.
+	\item \textbf{parser}: Parzerhez tartozó függvények.
+	\item \textbf{engine}: Viselkedés motorhoz tartozó függvények.
+	\item \textbf{simulator.m}: Program belépési pontja. Ezen a függvényen keresztül tudja a felhasználó használni az értelmezőt.
+	\item \textbf{surfaceTest.m}: A szakdolgozatban szereplő minta szerinti szabályfelületet ábrázoló teszt program (example.txt-ben lévő FBDL kód alapján).
+	\item \textbf{readme.md}: Programről szóló rövid leírás.
+	\item \textbf{example.txt}: Egyszerű példakód az FBDL használatának bemutatására.
+	\item \textbf{test.txt}: Terjedelmes FBDL kód a fordító teszteléséhez.
+\end{enumerate}
+
+A program használatához szükség a GNU/Octave környezet, melybe át kell másolni az interpreter mappát, illetve annak elérhetési útvonalát megadni a környezeti változóknál, hogy fel lehessen hívni a \texttt{simulator.m} függvényt. Az értelmező további függvényinek használata és FBDL programok ``futtatása'' a dolgozat 5. fejezetének végén található leírások szerint történik.
